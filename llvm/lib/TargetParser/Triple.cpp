@@ -86,6 +86,7 @@ StringRef Triple::getArchTypeName(ArchType Kind) {
   case x86_64:         return "x86_64";
   case xcore:          return "xcore";
   case xtensa:         return "xtensa";
+  case zxcv:           return "zxcv";
   }
 
   llvm_unreachable("Invalid ArchType!");
@@ -233,6 +234,8 @@ StringRef Triple::getArchTypePrefix(ArchType Kind) {
   case dxil:        return "dx";
 
   case xtensa:      return "xtensa";
+
+  case zxcv:        return "zxcv";
   }
 }
 
@@ -461,6 +464,7 @@ Triple::ArchType Triple::getArchTypeForLLVMName(StringRef Name) {
     .Case("loongarch64", loongarch64)
     .Case("dxil", dxil)
     .Case("xtensa", xtensa)
+    .Case("zxcv", zxcv)
     .Default(UnknownArch);
 }
 
@@ -609,6 +613,7 @@ static Triple::ArchType parseArch(StringRef ArchName) {
                  "dxilv1.4", "dxilv1.5", "dxilv1.6", "dxilv1.7", "dxilv1.8",
                  Triple::dxil)
           .Case("xtensa", Triple::xtensa)
+          .Case("zxcv", Triple::zxcv)
           .Default(Triple::UnknownArch);
 
   // Some architectures require special parsing logic just to compute the
@@ -945,6 +950,7 @@ static Triple::ObjectFormatType getDefaultFormat(const Triple &T) {
   case Triple::ve:
   case Triple::xcore:
   case Triple::xtensa:
+  case Triple::zxcv:
     return Triple::ELF;
 
   case Triple::ppc64:
@@ -1662,6 +1668,7 @@ unsigned Triple::getArchPointerBitWidth(llvm::Triple::ArchType Arch) {
   case llvm::Triple::ve:
   case llvm::Triple::wasm64:
   case llvm::Triple::x86_64:
+  case llvm::Triple::zxcv:
     return 64;
   }
   llvm_unreachable("Invalid architecture value");
@@ -1690,6 +1697,7 @@ Triple Triple::get32BitArchVariant() const {
   case Triple::msp430:
   case Triple::systemz:
   case Triple::ve:
+  case Triple::zxcv:
     T.setArch(UnknownArch);
     break;
 
@@ -1806,6 +1814,7 @@ Triple Triple::get64BitArchVariant() const {
   case Triple::ve:
   case Triple::wasm64:
   case Triple::x86_64:
+  case Triple::zxcv:
     // Already 64-bit.
     break;
 
@@ -1888,6 +1897,7 @@ Triple Triple::getBigEndianArchVariant() const {
   // drop any arch suffixes.
   case Triple::arm:
   case Triple::thumb:
+  case Triple::zxcv:
     T.setArch(UnknownArch);
     break;
 
@@ -1994,6 +2004,7 @@ bool Triple::isLittleEndian() const {
   case Triple::x86_64:
   case Triple::xcore:
   case Triple::xtensa:
+  case Triple::zxcv:
     return true;
   default:
     return false;

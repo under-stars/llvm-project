@@ -106,6 +106,7 @@ public:
     wasm64,         // WebAssembly with 64-bit pointers
     renderscript32, // 32-bit RenderScript
     renderscript64, // 64-bit RenderScript
+    zxcv,           // ZXCV
     ve,             // NEC SX-Aurora Vector Engine
     LastArchType = ve
   };
@@ -1019,6 +1020,11 @@ public:
   /// Tests whether the target is x86 (32- or 64-bit).
   bool isX86() const {
     return getArch() == Triple::x86 || getArch() == Triple::x86_64;
+  }
+
+  /// Tests whether the target is ZXCV
+  bool isZXCV() const {
+    return getArch() == Triple::zxcv;
   }
 
   /// Tests whether the target is VE

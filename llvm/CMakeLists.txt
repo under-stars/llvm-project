@@ -487,6 +487,7 @@ set(LLVM_ALL_TARGETS
   WebAssembly
   X86
   XCore
+  ZXCV
   )
 
 set(LLVM_ALL_EXPERIMENTAL_TARGETS
