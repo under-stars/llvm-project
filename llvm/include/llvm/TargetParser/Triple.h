@@ -104,6 +104,7 @@ public:
     wasm64,         // WebAssembly with 64-bit pointers
     renderscript32, // 32-bit RenderScript
     renderscript64, // 64-bit RenderScript
+    xygpu,          // XingYun GPUs
     ve,             // NEC SX-Aurora Vector Engine
     LastArchType = ve
   };
@@ -1054,6 +1055,9 @@ public:
   bool isX86() const {
     return getArch() == Triple::x86 || getArch() == Triple::x86_64;
   }
+
+  /// Tests whether the target is XYGPU
+  bool isXYGPU() const { return getArch() == Triple::xygpu; }
 
   /// Tests whether the target is VE
   bool isVE() const {
