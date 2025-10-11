@@ -1,0 +1,102 @@
+
+stages:
+  - build
+  - test
+  - release
+
+default:
+  image: $DEFAULT_CI_IMAGE
+  tags:
+    - $DEFAULT_JOB_TAG
+  interruptible: true
+
+# Make the pipeline switch from branch pipelines to merge
+# request pipelines after a merge request is created.
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      when: never
+    - if: $CI_COMMIT_BRANCH
+    - if: $CI_COMMIT_TAG
+
+# Global variables
+variables:
+  DEFAULT_JOB_TAG: linux
+  DEFAULT_CI_IMAGE: llvm-ci:centos7
+  PACKAGE_REGISTRY_URL: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/llvm-release
+  BUILD_DIR: build
+  INSTALL_DIR: install
+  BUILD_TAR: build.tar.gz
+
+before_script:
+  - pwd
+
+
+
+build_job:
+  stage: build
+  script:
+    - export CCACHE_DIR=/cache/ccache
+    - export CCACHE_BASEDIR=/builds
+    - git remote set-url origin git@gitlab:sw/llvm-project.git
+    - cmake -G Ninja -B ${BUILD_DIR} -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR} -DCMAKE_BUILD_TYPE=Release -C clang/cmake/caches/XYGPU.cmake ./llvm
+    - ninja -C ${BUILD_DIR}
+    - tar cf - ${BUILD_DIR} | pigz > ${BUILD_TAR}
+  artifacts:
+    paths:
+      - $BUILD_TAR
+    expire_in: 1 day
+
+test_job:
+  stage: test
+  dependencies:
+    - build_job
+  script:
+    - tar xf ${BUILD_TAR} --use-compress-program=pigz
+    - ${BUILD_DIR}/bin/llvm-lit -q -v llvm/test clang/test lld/test
+
+upload_job:
+  stage: release
+  rules:
+    - if: $CI_COMMIT_TAG
+  dependencies:
+    - build_job
+  script:
+    - |
+      if [[ ! ${CI_COMMIT_TAG} =~ ^llvm-[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+        echo "invalid tag name: ${CI_COMMIT_TAG}"
+        exit 1
+      fi
+    - tar xf ${BUILD_TAR} --use-compress-program=pigz
+    - ninja -C ${BUILD_DIR} install
+    - RELEASE_NAME=${CI_COMMIT_TAG}
+    - PACKAGE_VERSION=${CI_COMMIT_TAG:5}
+    - echo "RELEASE_NAME=${RELEASE_NAME}" > variables.env
+    - echo "PACKAGE_VERSION=${PACKAGE_VERSION}" >> variables.env
+    - mv ${INSTALL_DIR} ${RELEASE_NAME}
+    - tar cf - ${RELEASE_NAME} | pigz > ${RELEASE_NAME}.tar.gz
+    - |
+      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file ${RELEASE_NAME}.tar.gz "${PACKAGE_REGISTRY_URL}/${PACKAGE_VERSION}/${RELEASE_NAME}.tar.gz"
+  artifacts:
+    reports:
+      dotenv: variables.env
+
+
+release_job:
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  stage: release
+  rules:
+    - if: $CI_COMMIT_TAG
+  needs:
+    - job: upload_job
+  script:
+    - echo "Running release job..."
+  release:
+    tag_name: $CI_COMMIT_TAG
+    description: $CI_COMMIT_TAG_MESSAGE
+    assets:
+      links:
+        - name: $CI_COMMIT_TAG
+          url: ${PACKAGE_REGISTRY_URL}/${PACKAGE_VERSION}/${RELEASE_NAME}.tar.gz
+
