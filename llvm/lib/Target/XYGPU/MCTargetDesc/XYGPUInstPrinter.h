@@ -27,6 +27,8 @@ public:
                  const MCSubtargetInfo &STI, raw_ostream &O) override;
   void printOperand(const MCInst *MI, unsigned OpNo, raw_ostream &O,
                     const char *Modifier = nullptr);
+  void printPCRelImm(const MCInst *MI, uint64_t Address, unsigned OpNo,
+                     raw_ostream &O);
   void printRegularOperand(const MCInst *MI, unsigned OpNo, raw_ostream &O);
   void printPred(const MCInst *MI, raw_ostream &O);
   void printControlCode(const MCInst *MI, raw_ostream &O);

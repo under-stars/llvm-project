@@ -84,6 +84,11 @@ void XYGPUInstPrinter::printGeneralInstruction(const MCInst *MI,
 void XYGPUInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
                                     raw_ostream &O, const char *Modifier) {}
 
+// TODO: In order to match AsmWriter param list, do nothing.
+void XYGPUInstPrinter::printPCRelImm(const MCInst *MI, uint64_t Address,
+                                      unsigned OpNo, raw_ostream &O) {
+}
+
 void XYGPUInstPrinter::printRegularOperand(const MCInst *MI, unsigned OpNo,
                                            raw_ostream &O) {
   const MCOperand &MO = MI->getOperand(OpNo);

@@ -6,6 +6,7 @@ add_llvm_component_library(LLVMXYGPUDesc
   XYGPUMCAsmInfo.cpp
   XYGPUMCCodeEmitter.cpp
   XYGPUMCTargetDesc.cpp
+  XYGPUMCExpr.cpp
 
   LINK_COMPONENTS
   XYGPUUtils

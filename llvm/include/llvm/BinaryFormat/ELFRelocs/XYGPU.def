@@ -2,4 +2,25 @@
 #error "ELF_RELOC must be defined"
 #endif
 
-ELF_RELOC(R_XYGPU_NONE,     0)
+ELF_RELOC(R_XYGPU_NONE,                 0)
+ELF_RELOC(R_XYGPU_ABS64,                1)
+ELF_RELOC(R_XYGPU_ABS32_LO,             2)
+ELF_RELOC(R_XYGPU_ABS32_HI,             3)
+ELF_RELOC(R_XYGPU_JUMP,                 4)
+ELF_RELOC(R_XYGPU_SHARED_16,            5)
+ELF_RELOC(R_XYGPU_SHARED_24,            6)
+ELF_RELOC(R_XYGPU_SHARED_32,            7)
+ELF_RELOC(R_XYGPU_CONST_16,             8)
+ELF_RELOC(R_XYGPU_CONST_24,             9)
+ELF_RELOC(R_XYGPU_RELATIVE,             31)
+
+// These reloc it just for reserve
+ELF_RELOC(R_XYGPU_ABS16,                10)
+ELF_RELOC(R_XYGPU_ABS24,                11)
+ELF_RELOC(R_XYGPU_ABS32,                12)
+ELF_RELOC(R_XYGPU_PCREL_LO_16,          13)
+ELF_RELOC(R_XYGPU_PCREL_LO_24,          14)
+ELF_RELOC(R_XYGPU_PCREL_LO_32,          15)
+ELF_RELOC(R_XYGPU_PCREL_HI_50,          16)
+ELF_RELOC(R_XYGPU_PCREL_GOT_LO_24,      17)
+ELF_RELOC(R_XYGPU_PCREL_GOT_HI_50,      18)

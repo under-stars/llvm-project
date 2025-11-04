@@ -7,6 +7,7 @@
 //===----------------------------------------------------------------------===//
 
 #include "MCTargetDesc/XYGPUInstPrinter.h"
+#include "MCTargetDesc/XYGPUMCExpr.h"
 #include "TargetInfo/XYGPUTargetInfo.h"
 #include "Utils/XYGPUBaseInfo.h"
 #include "Utils/XYGPUControlCode.h"
@@ -259,6 +260,7 @@ private:
     StringRef Tok;
     ImmOp Imm;
     RegOp Reg;
+    const MCExpr *Expr;
   };
 
 public:
@@ -268,6 +270,7 @@ public:
   bool isReg() const override { return Kind == KindTy::Register; }
   bool isMem() const override { llvm_unreachable("no isMem"); }
   bool isExpr() const { return Kind == KindTy::Expression; }
+  bool isExprOrImm() const { return isImm() || isExpr(); }
   bool isIntImm() const { return isImm() && Imm.Kind == ImmKindTy::Int; }
   bool isCMemImm() const { return isImm() && Imm.Kind == ImmKindTy::CMem; }
   bool isFPImm() const { return isImm() && Imm.Kind == ImmKindTy::FP; }
@@ -303,6 +306,20 @@ public:
     assert(isImm());
     Imm.Val = I;
   }
+  const MCExpr * getExpr() const {
+    assert(isExpr() && "Invalid access!");
+    return Expr;
+  }
+  void addExpr(MCInst &Inst, const MCExpr *Expr) const {
+    // Add as immediates when possible.
+    if (const MCConstantExpr *CE = dyn_cast<MCConstantExpr>(Expr))
+      Inst.addOperand(MCOperand::createImm(CE->getValue()));
+    else
+      Inst.addOperand(MCOperand::createExpr(Expr));
+  }
+  void addLdStModifyOperands(MCInst &Inst, unsigned N) {
+    addImmOperands(Inst, N);
+  }
 
   // Used by the TableGen Code
   void addRegOperands(MCInst &Inst, unsigned N) const {
@@ -312,6 +329,14 @@ public:
   void addImmOperands(MCInst &Inst, unsigned N) const {
     assert(N == 1 && "Invalid number of operands!");
     Inst.addOperand(MCOperand::createImm(getImm()));
+  }
+  void addImmOrExprOperands(MCInst &Inst, unsigned N) const {
+    assert(N == 1 && "Invalid number of operands!");
+    if (isImm()) {
+      addImmOperands(Inst, N);
+    } else {
+      addExpr(Inst, getExpr());
+    }
   }
 
   static std::unique_ptr<XYGPUOperand> createToken(StringRef Str, SMLoc S) {
@@ -382,6 +407,15 @@ public:
     return Op;
   }
 
+  static std::unique_ptr<XYGPUOperand>
+  createExpr(const class MCExpr *Expr, SMLoc S, SMLoc E) {
+    auto Op = std::make_unique<XYGPUOperand>(KindTy::Expression);
+    Op->Expr = Expr;
+    Op->StartLoc = S;
+    Op->EndLoc = E;
+    return Op;
+  }
+
   // Debug methods
   void print(raw_ostream &OS) const override {
     switch (Kind) {
@@ -395,7 +429,7 @@ public:
       OS << "'" << getToken() << "'";
       break;
     case KindTy::Expression:
-      assert(0 && "Not implemented");
+      OS << "<expr " << *Expr << '>';
       break;
     }
   }
@@ -430,6 +464,9 @@ public:
   }
 
   bool isCMemOffset() const {
+    if (isExpr())
+      return true;
+
     if (!isCMemImm())
       return false;
     int64_t Val = getImm();
@@ -1315,10 +1352,23 @@ ParseStatus XYGPUAsmParser::parseAsmImm(AsmOprVector &Operands,
   SMLoc SLoc = getLoc();
   SMLoc ELoc;
   const MCExpr *Expr;
+  // TODO: finalize Asm split symbol.
+  XYGPUMCExpr::VariantKind RefKind = XYGPUMCExpr::VK_None;
+  if (parseOptionalToken(AsmToken::Colon)) {
+    if (getLexer().getTok().is(AsmToken::Identifier)) {
+      std::string LowerCase = getTok().getIdentifier().lower();
+      RefKind = XYGPUMCExpr::getVariantKindForName(LowerCase);
+    }
+    getLexer().Lex(); // eat fixup kinds
+    if (parseToken(AsmToken::Colon, "expect ':' after relocation specifier"))
+      return ParseStatus::NoMatch;
+  }
 
   switch (getLexer().getKind()) {
   default:
     return ParseStatus::NoMatch;
+  case AsmToken::Dot:
+  case AsmToken::Identifier:
   case AsmToken::LParen:
   case AsmToken::Minus:
   case AsmToken::Plus:
@@ -1336,7 +1386,11 @@ ParseStatus XYGPUAsmParser::parseAsmImm(AsmOprVector &Operands,
         XYGPUAsmOperand::createSingle(std::move(ImmOpr), SLoc, ELoc));
     OperandKinds.push_back(AsmOperandKind::Imm);
   } else {
-    llvm_unreachable("Unhandled expression type.");
+    if (RefKind != XYGPUMCExpr::VK_None)
+      Expr = XYGPUMCExpr::create(Expr, RefKind, getContext());
+    auto ExprOpr = XYGPUOperand::createExpr(Expr, SLoc, ELoc);
+    Operands.push_back(XYGPUAsmOperand::createSingle(std::move(ExprOpr), SLoc, ELoc));
+    OperandKinds.push_back(AsmOperandKind::Imm);
   }
 
   return ParseStatus::Success;
@@ -1463,11 +1517,28 @@ ParseStatus XYGPUAsmParser::parseAsmMem(AsmOprVector &Oprs,
   SMLoc SLoc, ELoc;
   int64_t IntVal;
   SLoc = getLoc();
+  // TODO: finalize Asm split symbol.
+  XYGPUMCExpr::VariantKind RefKind = XYGPUMCExpr::VK_None;
+  if (parseOptionalToken(AsmToken::Colon)) {
+    if (getLexer().getTok().is(AsmToken::Identifier)) {
+      std::string LowerCase = getTok().getIdentifier().lower();
+      RefKind = XYGPUMCExpr::getVariantKindForName(LowerCase);
+    }
+    getLexer().Lex(); // eat fixup kinds
+    if (parseToken(AsmToken::Colon, "expect ':' after relocation specifier"))
+      return ParseStatus::NoMatch;
+  }
+
   if (getParser().parseExpression(Expr, ELoc))
     return ParseStatus::Failure;
-  if (!Expr->evaluateAsAbsolute(IntVal))
-    return ParseStatus::Failure;
-  ImmOpr = XYGPUOperand::createIntImm(IntVal, SLoc, ELoc);
+  if (Expr->evaluateAsAbsolute(IntVal)) {
+    ImmOpr = XYGPUOperand::createIntImm(IntVal, SLoc, ELoc);
+  } else {
+    if (RefKind != XYGPUMCExpr::VK_None)
+      Expr = XYGPUMCExpr::create(Expr, RefKind, getContext());
+    ImmOpr = XYGPUOperand::createExpr(Expr, SLoc, ELoc);
+  }
+
   if (getLexer().isNot(AsmToken::RBrac)) {
     return ParseStatus::Failure;
   }
@@ -1553,11 +1624,29 @@ ParseStatus XYGPUAsmParser::parseAsmCMem(AsmOprVector &Operands,
     }
 
     SLoc = getLoc();
+    // TODO: finalize Asm split symbol.
+    XYGPUMCExpr::VariantKind RefKind = XYGPUMCExpr::VK_None;
+    // FIXME: how to parse multi-express with split symbols?
+    parseOptionalToken(AsmToken::Plus);
+    if (parseOptionalToken(AsmToken::Colon)) {
+      if (getLexer().getTok().is(AsmToken::Identifier)) {
+        std::string LowerCase = getTok().getIdentifier().lower();
+        RefKind = XYGPUMCExpr::getVariantKindForName(LowerCase);
+      }
+      getLexer().Lex(); // eat fixup kinds
+      if (parseToken(AsmToken::Colon, "expect ':' after relocation specifier"))
+        return ParseStatus::NoMatch;
+    }
     if (getParser().parseExpression(Expr, ELoc))
       return ParseStatus::Failure;
-    if (!Expr->evaluateAsAbsolute(IntVal))
-      return ParseStatus::Failure;
-    COffsetOpr = XYGPUOperand::createCMemImm(IntVal, SLoc, ELoc);
+    if (Expr->evaluateAsAbsolute(IntVal)) {
+      COffsetOpr = XYGPUOperand::createCMemImm(IntVal, SLoc, ELoc);
+    } else {
+      if (RefKind != XYGPUMCExpr::VK_None)
+        Expr = XYGPUMCExpr::create(Expr, RefKind, getContext());
+      COffsetOpr = XYGPUOperand::createExpr(Expr, SLoc, ELoc);
+    }
+
     if (getLexer().isNot(AsmToken::RBrac)) {
       return ParseStatus::Failure;
     }

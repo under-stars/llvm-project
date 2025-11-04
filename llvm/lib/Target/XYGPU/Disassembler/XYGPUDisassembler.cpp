@@ -174,6 +174,16 @@ static DecodeStatus DecodeBRegRCRegisterClass(MCInst &Inst, uint32_t RegNo,
   return MCDisassembler::Success;
 }
 
+template <unsigned N>
+static DecodeStatus decodeSImmOperand(MCInst &Inst, uint64_t Imm,
+                                      int64_t Address,
+                                      const MCDisassembler *Decoder) {
+  assert(isUInt<N>(Imm) && "Invalid immediate");
+  // Sign-extend the number in the bottom N bits of Imm
+  Inst.addOperand(MCOperand::createImm(SignExtend64<N>(Imm)));
+  return MCDisassembler::Success;
+}
+
 #include "XYGPUGenDisassemblerTables.inc"
 
 static inline DecoderUInt128 eat16Bytes(ArrayRef<uint8_t> &Bytes) {

@@ -50,7 +50,7 @@ def CMemBankAOC : AsmOperandClass {
 
 def CMemOffsetAOC : AsmOperandClass {
   let Name = "CMemOffset";
-  let RenderMethod = "addImmOperands";
+  let RenderMethod = "addImmOrExprOperands";
   let DiagnosticType = "InvalidCMemOffset";
 }
 
@@ -60,6 +60,11 @@ def SRegAOC : AsmOperandClass {
   let DiagnosticType = "InvalidSReg";
 }
 
+def SymbolAOC : AsmOperandClass {
+  let Name = "SymbolRef";
+  let RenderMethod = "addImmOrExprOperands";
+  let PredicateMethod = "isExprOrImm";
+}
 
 //===----------------------------------------------------------------------===//
 // Define operand classes
@@ -143,6 +148,7 @@ def CMemBankOpr : XYGPUImmOperand<i8> {
 }
 def CMemOffsetOpr : XYGPUImmOperand<i32> {
   let ParserMatchClass = CMemOffsetAOC;
+  let EncoderMethod = "getImmidiateOpValue";
 }
 def SRegOpr : XYGPUImmOperand<i8> {
   let ParserMatchClass = SRegAOC;
@@ -153,9 +159,21 @@ def F64ImmOpr : XYGPUImmOperand<f64>;
 def SImm7Opr : XYGPUImmOperand<i8>;
 def SImm9Opr : XYGPUImmOperand<i16>;
 def SImm16Opr : XYGPUImmOperand<i16>;
-def SImm24Opr : XYGPUImmOperand<i32>;
-def SImm32Opr : XYGPUImmOperand<i32>;
-def SImm50Opr : XYGPUImmOperand<i64>;
+def SImm24Opr : XYGPUImmOperand<i32>  {
+  let ParserMatchClass = SymbolAOC;
+  let EncoderMethod = "getImmidiateOpValue";
+}
+def SImm32Opr : XYGPUImmOperand<i32> {
+  let ParserMatchClass = SymbolAOC;
+  let EncoderMethod = "getImmidiateOpValue";
+}
+def SImm50Opr : XYGPUImmOperand<i64> {
+  let OperandType = "OPERAND_PCREL";
+  let ParserMatchClass = SymbolAOC;
+  let PrintMethod = "printPCRelImm";
+  let EncoderMethod = "getJumpTargetOpValue";
+  let DecoderMethod = "decodeSImmOperand<50>";
+}
 def UImm2Opr : XYGPUImmOperand<i2>;
 def UImm3Opr : XYGPUImmOperand<i4>;
 def UImm4Opr : XYGPUImmOperand<i4>;

@@ -12,9 +12,11 @@
 
 #include "XYGPUMCTargetDesc.h"
 #include "TargetInfo/XYGPUTargetInfo.h"
+#include "Utils/XYGPUBaseInfo.h"
 #include "XYGPUDefines.h"
 #include "XYGPUInstPrinter.h"
 #include "XYGPUMCAsmInfo.h"
+#include "llvm/MC/MCInstrAnalysis.h"
 #include "llvm/MC/MCInstrInfo.h"
 #include "llvm/MC/MCRegisterInfo.h"
 #include "llvm/MC/MCSubtargetInfo.h"
@@ -63,6 +65,39 @@ static MCInstPrinter *createXYGPUMCInstPrinter(const Triple &T,
   return new XYGPUInstPrinter(MAI, MII, MRI);
 }
 
+namespace {
+
+class XYGPUMCInstrAnalysis : public MCInstrAnalysis {
+public:
+  explicit  XYGPUMCInstrAnalysis(const MCInstrInfo *Info)
+      : MCInstrAnalysis(Info) {}
+
+  bool evaluateBranch(const MCInst &Inst, uint64_t Addr, uint64_t Size,
+                      uint64_t &Target) const override {
+    unsigned OprIdx = XYGPU::getNamedOperandIdx(Inst.getOpcode(), XYGPU::OpName::offset);
+    if (OprIdx == (unsigned)-1)
+      return false;
+
+    if (Inst.getNumOperands() < OprIdx)
+      return false;
+
+    if (!Inst.getOperand(OprIdx).isImm()
+    || Info->get(Inst.getOpcode()).operands()[OprIdx].OperandType != MCOI::OPERAND_PCREL)
+      return false;
+
+    int64_t Imm = Inst.getOperand(OprIdx).getImm();
+    // Our branches take a simm50 with shiftamt
+    Target = (Imm << 4) + Addr + 0x10;
+    return true;
+  }
+};
+
+} // end anonymous namespace
+
+static MCInstrAnalysis *createXYGPUMCInstrAnalysis(const MCInstrInfo *Info) {
+  return new ::XYGPUMCInstrAnalysis(Info);
+}
+
 extern "C" LLVM_EXTERNAL_VISIBILITY void LLVMInitializeXYGPUTargetMC() {
   for (Target *T : {&getTheXYGPUTarget()}) {
     TargetRegistry::RegisterMCSubtargetInfo(*T, createXYGPUMCSubtargetInfo);
@@ -71,6 +106,7 @@ extern "C" LLVM_EXTERNAL_VISIBILITY void LLVMInitializeXYGPUTargetMC() {
     TargetRegistry::RegisterMCAsmInfo(*T, createXYGPUMCAsmInfo);
     TargetRegistry::RegisterMCInstPrinter(*T, createXYGPUMCInstPrinter);
     TargetRegistry::RegisterMCAsmBackend(*T, createXYGPUAsmBackend);
+    TargetRegistry::RegisterMCInstrAnalysis(*T, createXYGPUMCInstrAnalysis);
     TargetRegistry::RegisterMCCodeEmitter(*T, createXYGPUMCCodeEmitter);
   }
 }
