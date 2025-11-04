@@ -66,29 +66,20 @@ def SymbolAOC : AsmOperandClass {
   let PredicateMethod = "isExprOrImm";
 }
 
+
 //===----------------------------------------------------------------------===//
 // Define operand classes
 
-// Define modifier operands
+include "AutoGen/XYGPUOperands.inc.td"
 
-def PGuardModiOpr : Operand<i1> {
+// Define special operands
+
+def PGuardModiOpr : Operand<i32> {
   let OperandNamespace = "XYGPU";
   let OperandType = "OPERAND_PRED_MODI";
   let ParserMatchClass = PGuardModiAOC;
   let PrintMethod = "dummyPrint";
 }
-
-class XYGPUInstrModiOperand<ValueType ty> : Operand<ty> {
-  let OperandNamespace = "XYGPU";
-  let OperandType = "OPERAND_INSTR_MODI";
-}
-
-class XYGPUOprModiOperand<ValueType ty> : Operand<ty> {
-  let OperandNamespace = "XYGPU";
-  let OperandType = "OPERAND_OPR_MODI";
-}
-
-include "AutoGen/XYGPUOperands.inc.td"
 
 // Define register operands
 
@@ -115,50 +106,51 @@ def BRegOpr : XYGPURegOperand<BRegRC>;
 def PredAllOpr : XYGPURegOperand<PredAllRC>;
 def UPredAllOpr : XYGPURegOperand<UPredAllRC>;
 
-// Define special operands
+// Define control code operands
 
-def SchedCtrlOpr : OperandWithDefaultOps<i8, (ops (i8 0))> {
+def SchedCtrlOpr : OperandWithDefaultOps<i32, (ops (i32 CCSched.W0))> {
   let OperandNamespace = "XYGPU";
   let OperandType = "OPERAND_CTRL";
 }
 
-def ReqSBCtrlOpr : OperandWithDefaultOps<i8, (ops (i8 0))> {
+def ReqSBCtrlOpr : OperandWithDefaultOps<i32, (ops (i32 0))> {
   let OperandNamespace = "XYGPU";
   let OperandType = "OPERAND_CTRL";
 }
 
-def WrSBCtrlOpr : OperandWithDefaultOps<i8, (ops (i8 7))> {
+def WrSBCtrlOpr : OperandWithDefaultOps<i32, (ops (i32 CCWrSB.WSBNone))> {
   let OperandNamespace = "XYGPU";
   let OperandType = "OPERAND_CTRL";
 }
 
-def TrapCtrlOpr : OperandWithDefaultOps<i8, (ops (i1 0))> {
+def TrapCtrlOpr : OperandWithDefaultOps<i32, (ops (i32 CCTrap.NoTrap))> {
   let OperandNamespace = "XYGPU";
   let OperandType = "OPERAND_CTRL";
 }
 
 // Define immediate operands
 
-class XYGPUImmOperand<ValueType ty> : Operand<ty> {
+class XYGPUImmOperand<ValueType ty, code pred=[{}]>
+    : Operand<ty>, ImmLeaf<ty, pred> {
   let OperandType = "OPERAND_IMMEDIATE";
 }
 
-def CMemBankOpr : XYGPUImmOperand<i8> {
+def CMemBankOpr : XYGPUImmOperand<i32> {
   let ParserMatchClass = CMemBankAOC;
 }
 def CMemOffsetOpr : XYGPUImmOperand<i32> {
   let ParserMatchClass = CMemOffsetAOC;
   let EncoderMethod = "getImmidiateOpValue";
 }
-def SRegOpr : XYGPUImmOperand<i8> {
+def SRegOpr : XYGPUImmOperand<i32> {
   let ParserMatchClass = SRegAOC;
 }
 def F16ImmX2Opr : XYGPUImmOperand<v2f16>;
 def F32ImmOpr : XYGPUImmOperand<f32>;
 def F64ImmOpr : XYGPUImmOperand<f64>;
-def SImm7Opr : XYGPUImmOperand<i8>;
-def SImm9Opr : XYGPUImmOperand<i16>;
-def SImm16Opr : XYGPUImmOperand<i16>;
+def SImm7Opr : XYGPUImmOperand<i32>;
+def SImm9Opr : XYGPUImmOperand<i32>;
+def SImm16Opr : XYGPUImmOperand<i32>;
 def SImm24Opr : XYGPUImmOperand<i32>  {
   let ParserMatchClass = SymbolAOC;
   let EncoderMethod = "getImmidiateOpValue";
@@ -167,19 +159,29 @@ def SImm32Opr : XYGPUImmOperand<i32> {
   let ParserMatchClass = SymbolAOC;
   let EncoderMethod = "getImmidiateOpValue";
 }
-def SImm50Opr : XYGPUImmOperand<i64> {
+def UImm2Opr : XYGPUImmOperand<i32>;
+def UImm3Opr : XYGPUImmOperand<i32>;
+def UImm4Opr : XYGPUImmOperand<i32>;
+def UImm5Opr : XYGPUImmOperand<i32>;
+def UImm8Opr : XYGPUImmOperand<i32>;
+def UImm12Opr : XYGPUImmOperand<i32>;
+def UImm13Opr : XYGPUImmOperand<i32>;
+def UImm16Opr : XYGPUImmOperand<i32>;
+def UImm32Opr : XYGPUImmOperand<i32>;
+
+
+// Special imm operand for branch target
+
+class XYGPUBrTargetOperand : Operand<OtherVT> {
+  let OperandType = "OPERAND_IMMEDIATE";
+}
+
+def SImm50Opr : XYGPUBrTargetOperand {
   let OperandType = "OPERAND_PCREL";
   let ParserMatchClass = SymbolAOC;
   let PrintMethod = "printPCRelImm";
   let EncoderMethod = "getJumpTargetOpValue";
   let DecoderMethod = "decodeSImmOperand<50>";
 }
-def UImm2Opr : XYGPUImmOperand<i2>;
-def UImm3Opr : XYGPUImmOperand<i4>;
-def UImm4Opr : XYGPUImmOperand<i4>;
-def UImm5Opr : XYGPUImmOperand<i8>;
-def UImm8Opr : XYGPUImmOperand<i8>;
-def UImm12Opr : XYGPUImmOperand<i16>;
-def UImm13Opr : XYGPUImmOperand<i16>;
-def UImm16Opr : XYGPUImmOperand<i16>;
-def UImm32Opr : XYGPUImmOperand<i32>;
+
+

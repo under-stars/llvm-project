@@ -11264,6 +11264,7 @@ def ISET_RU : XYGPUPGuardInst<
   let Inst{105} = pq_not;
 }
 
+let mayLoad = 1 in
 def LDC_RC__32 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins CMemBankOpr:$vb_bank, CMemOffsetOpr:$vb_offset, RegOpr:$ra),
@@ -11280,6 +11281,7 @@ def LDC_RC__32 : XYGPUPGuardInst<
   let Inst{48-32} = vb_offset;
 }
 
+let mayLoad = 1 in
 def LDC_RC__S16 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins CMemBankOpr:$vb_bank, CMemOffsetOpr:$vb_offset, RegOpr:$ra),
@@ -11296,6 +11298,7 @@ def LDC_RC__S16 : XYGPUPGuardInst<
   let Inst{48-32} = vb_offset;
 }
 
+let mayLoad = 1 in
 def LDC_RC__S8 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins CMemBankOpr:$vb_bank, CMemOffsetOpr:$vb_offset, RegOpr:$ra),
@@ -11312,6 +11315,7 @@ def LDC_RC__S8 : XYGPUPGuardInst<
   let Inst{48-32} = vb_offset;
 }
 
+let mayLoad = 1 in
 def LDC_RC__U16 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins CMemBankOpr:$vb_bank, CMemOffsetOpr:$vb_offset, RegOpr:$ra),
@@ -11328,6 +11332,7 @@ def LDC_RC__U16 : XYGPUPGuardInst<
   let Inst{48-32} = vb_offset;
 }
 
+let mayLoad = 1 in
 def LDC_RC__U8 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins CMemBankOpr:$vb_bank, CMemOffsetOpr:$vb_offset, RegOpr:$ra),
@@ -11344,6 +11349,7 @@ def LDC_RC__U8 : XYGPUPGuardInst<
   let Inst{48-32} = vb_offset;
 }
 
+let mayLoad = 1 in
 def LDC_RC__64 : XYGPUPGuardInst<
     (outs RegDOpr:$rd),
     (ins CMemBankOpr:$vb_bank, CMemOffsetOpr:$vb_offset, RegOpr:$ra),
@@ -11360,6 +11366,7 @@ def LDC_RC__64 : XYGPUPGuardInst<
   let Inst{48-32} = vb_offset;
 }
 
+let mayLoad = 1 in
 def LDC_U__32 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins CMemBankOpr:$vb_bank, CMemOffsetOpr:$vb_offset, URegOpr:$ura),
@@ -11376,6 +11383,7 @@ def LDC_U__32 : XYGPUPGuardInst<
   let Inst{48-32} = vb_offset;
 }
 
+let mayLoad = 1 in
 def LDC_U__S16 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins CMemBankOpr:$vb_bank, CMemOffsetOpr:$vb_offset, URegOpr:$ura),
@@ -11392,6 +11400,7 @@ def LDC_U__S16 : XYGPUPGuardInst<
   let Inst{48-32} = vb_offset;
 }
 
+let mayLoad = 1 in
 def LDC_U__S8 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins CMemBankOpr:$vb_bank, CMemOffsetOpr:$vb_offset, URegOpr:$ura),
@@ -11408,6 +11417,7 @@ def LDC_U__S8 : XYGPUPGuardInst<
   let Inst{48-32} = vb_offset;
 }
 
+let mayLoad = 1 in
 def LDC_U__U16 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins CMemBankOpr:$vb_bank, CMemOffsetOpr:$vb_offset, URegOpr:$ura),
@@ -11424,6 +11434,7 @@ def LDC_U__U16 : XYGPUPGuardInst<
   let Inst{48-32} = vb_offset;
 }
 
+let mayLoad = 1 in
 def LDC_U__U8 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins CMemBankOpr:$vb_bank, CMemOffsetOpr:$vb_offset, URegOpr:$ura),
@@ -11440,6 +11451,7 @@ def LDC_U__U8 : XYGPUPGuardInst<
   let Inst{48-32} = vb_offset;
 }
 
+let mayLoad = 1 in
 def LDC_U__64 : XYGPUPGuardInst<
     (outs RegDOpr:$rd),
     (ins CMemBankOpr:$vb_bank, CMemOffsetOpr:$vb_offset, URegOpr:$ura),
@@ -11456,6 +11468,7 @@ def LDC_U__64 : XYGPUPGuardInst<
   let Inst{48-32} = vb_offset;
 }
 
+let mayLoad = 1 in
 def LDGDEPBAR_X : XYGPUPGuardInst<
     (outs ),
     (ins ),
@@ -11463,6 +11476,7 @@ def LDGDEPBAR_X : XYGPUPGuardInst<
   let Inst{11-0} = 0x78;
 }
 
+let mayLoad = 1 in
 def LDGSTS_RUR__S32_U64 : XYGPUPGuardInst<
     (outs ),
     (ins RegOpr:$rs, SImm16Opr:$soffset, RegOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, LDGSTSCacheOpIMOpr:$cop, LDGSTSSizeIMOpr:$size, LDGSTSFILLIMOpr:$zfill),
@@ -11491,6 +11505,7 @@ def LDGSTS_RUR__S32_U64 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDGSTS_RUR__U64_S32 : XYGPUPGuardInst<
     (outs ),
     (ins RegOpr:$rs, SImm16Opr:$soffset, RegDOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, LDGSTSCacheOpIMOpr:$cop, LDGSTSSizeIMOpr:$size, LDGSTSFILLIMOpr:$zfill),
@@ -11519,6 +11534,7 @@ def LDGSTS_RUR__U64_S32 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDGSTS_RUR__U64_U64 : XYGPUPGuardInst<
     (outs ),
     (ins RegOpr:$rs, SImm16Opr:$soffset, RegDOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, LDGSTSCacheOpIMOpr:$cop, LDGSTSSizeIMOpr:$size, LDGSTSFILLIMOpr:$zfill),
@@ -11547,6 +11563,7 @@ def LDGSTS_RUR__U64_U64 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDG_RU__128_S32_U64 : XYGPUPGuardInst<
     (outs RegQOpr:$rd),
     (ins RegOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -11574,6 +11591,7 @@ def LDG_RU__128_S32_U64 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDG_RU__128_U64_S32 : XYGPUPGuardInst<
     (outs RegQOpr:$rd),
     (ins RegDOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -11601,6 +11619,7 @@ def LDG_RU__128_U64_S32 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDG_RU__128_U64_U64 : XYGPUPGuardInst<
     (outs RegQOpr:$rd),
     (ins RegDOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -11628,6 +11647,7 @@ def LDG_RU__128_U64_U64 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDG_RU__32_S32_U64 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -11655,6 +11675,7 @@ def LDG_RU__32_S32_U64 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDG_RU__S16_S32_U64 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -11682,6 +11703,7 @@ def LDG_RU__S16_S32_U64 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDG_RU__S8_S32_U64 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -11709,6 +11731,7 @@ def LDG_RU__S8_S32_U64 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDG_RU__U16_S32_U64 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -11736,6 +11759,7 @@ def LDG_RU__U16_S32_U64 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDG_RU__U8_S32_U64 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -11763,6 +11787,7 @@ def LDG_RU__U8_S32_U64 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDG_RU__32_U64_S32 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegDOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -11790,6 +11815,7 @@ def LDG_RU__32_U64_S32 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDG_RU__S16_U64_S32 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegDOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -11817,6 +11843,7 @@ def LDG_RU__S16_U64_S32 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDG_RU__S8_U64_S32 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegDOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -11844,6 +11871,7 @@ def LDG_RU__S8_U64_S32 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDG_RU__U16_U64_S32 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegDOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -11871,6 +11899,7 @@ def LDG_RU__U16_U64_S32 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDG_RU__U8_U64_S32 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegDOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -11898,6 +11927,7 @@ def LDG_RU__U8_U64_S32 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDG_RU__32_U64_U64 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegDOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -11925,6 +11955,7 @@ def LDG_RU__32_U64_U64 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDG_RU__S16_U64_U64 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegDOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -11952,6 +11983,7 @@ def LDG_RU__S16_U64_U64 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDG_RU__S8_U64_U64 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegDOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -11979,6 +12011,7 @@ def LDG_RU__S8_U64_U64 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDG_RU__U16_U64_U64 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegDOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -12006,6 +12039,7 @@ def LDG_RU__U16_U64_U64 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDG_RU__U8_U64_U64 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegDOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -12033,6 +12067,7 @@ def LDG_RU__U8_U64_U64 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDG_RU__64_S32_U64 : XYGPUPGuardInst<
     (outs RegDOpr:$rd),
     (ins RegOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -12060,6 +12095,7 @@ def LDG_RU__64_S32_U64 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDG_RU__64_U64_S32 : XYGPUPGuardInst<
     (outs RegDOpr:$rd),
     (ins RegDOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -12087,6 +12123,7 @@ def LDG_RU__64_U64_S32 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDG_RU__64_U64_U64 : XYGPUPGuardInst<
     (outs RegDOpr:$rd),
     (ins RegDOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -12114,6 +12151,7 @@ def LDG_RU__64_U64_U64 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDL_RU__128 : XYGPUPGuardInst<
     (outs RegQOpr:$rd),
     (ins RegOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio),
@@ -12136,6 +12174,7 @@ def LDL_RU__128 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDL_RU__32 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio),
@@ -12158,6 +12197,7 @@ def LDL_RU__32 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDL_RU__S16 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio),
@@ -12180,6 +12220,7 @@ def LDL_RU__S16 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDL_RU__S8 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio),
@@ -12202,6 +12243,7 @@ def LDL_RU__S8 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDL_RU__U16 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio),
@@ -12224,6 +12266,7 @@ def LDL_RU__U16 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDL_RU__U8 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio),
@@ -12246,6 +12289,7 @@ def LDL_RU__U8 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDL_RU__64 : XYGPUPGuardInst<
     (outs RegDOpr:$rd),
     (ins RegOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio),
@@ -12268,6 +12312,7 @@ def LDL_RU__64 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDSM_RU__1 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, LDSMModeIMOpr:$mode, LDSMSizeIMOpr:$size),
@@ -12292,6 +12337,7 @@ def LDSM_RU__1 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDSM_RU__2 : XYGPUPGuardInst<
     (outs RegDOpr:$rd),
     (ins RegOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, LDSMModeIMOpr:$mode, LDSMSizeIMOpr:$size),
@@ -12316,6 +12362,7 @@ def LDSM_RU__2 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDSM_RU__4 : XYGPUPGuardInst<
     (outs RegQOpr:$rd),
     (ins RegOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, LDSMModeIMOpr:$mode, LDSMSizeIMOpr:$size),
@@ -12340,6 +12387,7 @@ def LDSM_RU__4 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDSSTG_RUR__S32_U64 : XYGPUPGuardInst<
     (outs ),
     (ins RegOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, RegOpr:$rs, SImm16Opr:$soffset, PModiOMOpr:$pp_not, PredOpr:$pp, LDGSTSCacheOpIMOpr:$cop, LDGSTSSizeIMOpr:$size, LDGSTSFILLIMOpr:$zfill),
@@ -12368,6 +12416,7 @@ def LDSSTG_RUR__S32_U64 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDSSTG_RUR__U64_S32 : XYGPUPGuardInst<
     (outs ),
     (ins RegDOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, RegOpr:$rs, SImm16Opr:$soffset, PModiOMOpr:$pp_not, PredOpr:$pp, LDGSTSCacheOpIMOpr:$cop, LDGSTSSizeIMOpr:$size, LDGSTSFILLIMOpr:$zfill),
@@ -12396,6 +12445,7 @@ def LDSSTG_RUR__U64_S32 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDSSTG_RUR__U64_U64 : XYGPUPGuardInst<
     (outs ),
     (ins RegDOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, RegOpr:$rs, SImm16Opr:$soffset, PModiOMOpr:$pp_not, PredOpr:$pp, LDGSTSCacheOpIMOpr:$cop, LDGSTSSizeIMOpr:$size, LDGSTSFILLIMOpr:$zfill),
@@ -12424,6 +12474,7 @@ def LDSSTG_RUR__U64_U64 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDS_RU__128 : XYGPUPGuardInst<
     (outs RegQOpr:$rd),
     (ins RStrideOMOpr:$ra_rstride, RegOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp),
@@ -12446,6 +12497,7 @@ def LDS_RU__128 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDS_RU__32 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RStrideOMOpr:$ra_rstride, RegOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp),
@@ -12468,6 +12520,7 @@ def LDS_RU__32 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDS_RU__S16 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RStrideOMOpr:$ra_rstride, RegOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp),
@@ -12490,6 +12543,7 @@ def LDS_RU__S16 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDS_RU__S8 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RStrideOMOpr:$ra_rstride, RegOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp),
@@ -12512,6 +12566,7 @@ def LDS_RU__S8 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDS_RU__U16 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RStrideOMOpr:$ra_rstride, RegOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp),
@@ -12534,6 +12589,7 @@ def LDS_RU__U16 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDS_RU__U8 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RStrideOMOpr:$ra_rstride, RegOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp),
@@ -12556,6 +12612,7 @@ def LDS_RU__U8 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LDS_RU__64 : XYGPUPGuardInst<
     (outs RegDOpr:$rd),
     (ins RStrideOMOpr:$ra_rstride, RegOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp),
@@ -12578,6 +12635,7 @@ def LDS_RU__64 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LD_RU__128_S32_U64 : XYGPUPGuardInst<
     (outs RegQOpr:$rd),
     (ins RegOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -12605,6 +12663,7 @@ def LD_RU__128_S32_U64 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LD_RU__128_U64_S32 : XYGPUPGuardInst<
     (outs RegQOpr:$rd),
     (ins RegDOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -12632,6 +12691,7 @@ def LD_RU__128_U64_S32 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LD_RU__128_U64_U64 : XYGPUPGuardInst<
     (outs RegQOpr:$rd),
     (ins RegDOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -12659,6 +12719,7 @@ def LD_RU__128_U64_U64 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LD_RU__32_S32_U64 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -12686,6 +12747,7 @@ def LD_RU__32_S32_U64 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LD_RU__S16_S32_U64 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -12713,6 +12775,7 @@ def LD_RU__S16_S32_U64 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LD_RU__S8_S32_U64 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -12740,6 +12803,7 @@ def LD_RU__S8_S32_U64 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LD_RU__U16_S32_U64 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -12767,6 +12831,7 @@ def LD_RU__U16_S32_U64 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LD_RU__U8_S32_U64 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -12794,6 +12859,7 @@ def LD_RU__U8_S32_U64 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LD_RU__32_U64_S32 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegDOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -12821,6 +12887,7 @@ def LD_RU__32_U64_S32 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LD_RU__S16_U64_S32 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegDOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -12848,6 +12915,7 @@ def LD_RU__S16_U64_S32 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LD_RU__S8_U64_S32 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegDOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -12875,6 +12943,7 @@ def LD_RU__S8_U64_S32 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LD_RU__U16_U64_S32 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegDOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -12902,6 +12971,7 @@ def LD_RU__U16_U64_S32 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LD_RU__U8_U64_S32 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegDOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -12929,6 +12999,7 @@ def LD_RU__U8_U64_S32 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LD_RU__32_U64_U64 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegDOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -12956,6 +13027,7 @@ def LD_RU__32_U64_U64 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LD_RU__S16_U64_U64 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegDOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -12983,6 +13055,7 @@ def LD_RU__S16_U64_U64 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LD_RU__S8_U64_U64 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegDOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -13010,6 +13083,7 @@ def LD_RU__S8_U64_U64 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LD_RU__U16_U64_U64 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegDOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -13037,6 +13111,7 @@ def LD_RU__U16_U64_U64 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LD_RU__U8_U64_U64 : XYGPUPGuardInst<
     (outs RegOpr:$rd),
     (ins RegDOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -13064,6 +13139,7 @@ def LD_RU__U8_U64_U64 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LD_RU__64_S32_U64 : XYGPUPGuardInst<
     (outs RegDOpr:$rd),
     (ins RegOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -13091,6 +13167,7 @@ def LD_RU__64_S32_U64 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LD_RU__64_U64_S32 : XYGPUPGuardInst<
     (outs RegDOpr:$rd),
     (ins RegDOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -13118,6 +13195,7 @@ def LD_RU__64_U64_S32 : XYGPUPGuardInst<
   let Inst{101} = pp_not;
 }
 
+let mayLoad = 1 in
 def LD_RU__64_U64_U64 : XYGPUPGuardInst<
     (outs RegDOpr:$rd),
     (ins RegDOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, PModiOMOpr:$pp_not, PredOpr:$pp, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -15417,6 +15495,7 @@ def SHF_RUR : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def STG_RUR__128_S32_U64 : XYGPUPGuardInst<
     (outs ),
     (ins RegOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, RegQOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -15440,6 +15519,7 @@ def STG_RUR__128_S32_U64 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def STG_RUR__128_U64_S32 : XYGPUPGuardInst<
     (outs ),
     (ins RegDOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, RegQOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -15463,6 +15543,7 @@ def STG_RUR__128_U64_S32 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def STG_RUR__128_U64_U64 : XYGPUPGuardInst<
     (outs ),
     (ins RegDOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, RegQOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -15486,6 +15567,7 @@ def STG_RUR__128_U64_U64 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def STG_RUR__32_S32_U64 : XYGPUPGuardInst<
     (outs ),
     (ins RegOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -15509,6 +15591,7 @@ def STG_RUR__32_S32_U64 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def STG_RUR__S16_S32_U64 : XYGPUPGuardInst<
     (outs ),
     (ins RegOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -15532,6 +15615,7 @@ def STG_RUR__S16_S32_U64 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def STG_RUR__S8_S32_U64 : XYGPUPGuardInst<
     (outs ),
     (ins RegOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -15555,6 +15639,7 @@ def STG_RUR__S8_S32_U64 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def STG_RUR__U16_S32_U64 : XYGPUPGuardInst<
     (outs ),
     (ins RegOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -15578,6 +15663,7 @@ def STG_RUR__U16_S32_U64 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def STG_RUR__U8_S32_U64 : XYGPUPGuardInst<
     (outs ),
     (ins RegOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -15601,6 +15687,7 @@ def STG_RUR__U8_S32_U64 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def STG_RUR__32_U64_S32 : XYGPUPGuardInst<
     (outs ),
     (ins RegDOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -15624,6 +15711,7 @@ def STG_RUR__32_U64_S32 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def STG_RUR__S16_U64_S32 : XYGPUPGuardInst<
     (outs ),
     (ins RegDOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -15647,6 +15735,7 @@ def STG_RUR__S16_U64_S32 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def STG_RUR__S8_U64_S32 : XYGPUPGuardInst<
     (outs ),
     (ins RegDOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -15670,6 +15759,7 @@ def STG_RUR__S8_U64_S32 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def STG_RUR__U16_U64_S32 : XYGPUPGuardInst<
     (outs ),
     (ins RegDOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -15693,6 +15783,7 @@ def STG_RUR__U16_U64_S32 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def STG_RUR__U8_U64_S32 : XYGPUPGuardInst<
     (outs ),
     (ins RegDOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -15716,6 +15807,7 @@ def STG_RUR__U8_U64_S32 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def STG_RUR__32_U64_U64 : XYGPUPGuardInst<
     (outs ),
     (ins RegDOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -15739,6 +15831,7 @@ def STG_RUR__32_U64_U64 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def STG_RUR__S16_U64_U64 : XYGPUPGuardInst<
     (outs ),
     (ins RegDOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -15762,6 +15855,7 @@ def STG_RUR__S16_U64_U64 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def STG_RUR__S8_U64_U64 : XYGPUPGuardInst<
     (outs ),
     (ins RegDOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -15785,6 +15879,7 @@ def STG_RUR__S8_U64_U64 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def STG_RUR__U16_U64_U64 : XYGPUPGuardInst<
     (outs ),
     (ins RegDOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -15808,6 +15903,7 @@ def STG_RUR__U16_U64_U64 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def STG_RUR__U8_U64_U64 : XYGPUPGuardInst<
     (outs ),
     (ins RegDOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -15831,6 +15927,7 @@ def STG_RUR__U8_U64_U64 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def STG_RUR__64_S32_U64 : XYGPUPGuardInst<
     (outs ),
     (ins RegOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, RegDOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -15854,6 +15951,7 @@ def STG_RUR__64_S32_U64 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def STG_RUR__64_U64_S32 : XYGPUPGuardInst<
     (outs ),
     (ins RegDOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, RegDOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -15877,6 +15975,7 @@ def STG_RUR__64_U64_S32 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def STG_RUR__64_U64_U64 : XYGPUPGuardInst<
     (outs ),
     (ins RegDOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, RegDOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -15900,6 +15999,7 @@ def STG_RUR__64_U64_U64 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def STL_RUR__128 : XYGPUPGuardInst<
     (outs ),
     (ins RegOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, RegQOpr:$rc, L1EvictPriorityIMOpr:$l1prio),
@@ -15918,6 +16018,7 @@ def STL_RUR__128 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def STL_RUR__32 : XYGPUPGuardInst<
     (outs ),
     (ins RegOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, L1EvictPriorityIMOpr:$l1prio),
@@ -15936,6 +16037,7 @@ def STL_RUR__32 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def STL_RUR__S16 : XYGPUPGuardInst<
     (outs ),
     (ins RegOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, L1EvictPriorityIMOpr:$l1prio),
@@ -15954,6 +16056,7 @@ def STL_RUR__S16 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def STL_RUR__S8 : XYGPUPGuardInst<
     (outs ),
     (ins RegOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, L1EvictPriorityIMOpr:$l1prio),
@@ -15972,6 +16075,7 @@ def STL_RUR__S8 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def STL_RUR__U16 : XYGPUPGuardInst<
     (outs ),
     (ins RegOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, L1EvictPriorityIMOpr:$l1prio),
@@ -15990,6 +16094,7 @@ def STL_RUR__U16 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def STL_RUR__U8 : XYGPUPGuardInst<
     (outs ),
     (ins RegOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, L1EvictPriorityIMOpr:$l1prio),
@@ -16008,6 +16113,7 @@ def STL_RUR__U8 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def STL_RUR__64 : XYGPUPGuardInst<
     (outs ),
     (ins RegOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, RegDOpr:$rc, L1EvictPriorityIMOpr:$l1prio),
@@ -16026,6 +16132,7 @@ def STL_RUR__64 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def STSM_RUR__1 : XYGPUPGuardInst<
     (outs ),
     (ins RegOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, LDSMModeIMOpr:$mode, LDSMSizeIMOpr:$size),
@@ -16046,6 +16153,7 @@ def STSM_RUR__1 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def STSM_RUR__2 : XYGPUPGuardInst<
     (outs ),
     (ins RegOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, RegDOpr:$rc, LDSMModeIMOpr:$mode, LDSMSizeIMOpr:$size),
@@ -16066,6 +16174,7 @@ def STSM_RUR__2 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def STSM_RUR__4 : XYGPUPGuardInst<
     (outs ),
     (ins RegOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, RegQOpr:$rc, LDSMModeIMOpr:$mode, LDSMSizeIMOpr:$size),
@@ -16086,6 +16195,7 @@ def STSM_RUR__4 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def STS_RUR__128 : XYGPUPGuardInst<
     (outs ),
     (ins RStrideOMOpr:$ra_rstride, RegOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, RegQOpr:$rc),
@@ -16104,6 +16214,7 @@ def STS_RUR__128 : XYGPUPGuardInst<
   let Inst{91-90} = ra_rstride;
 }
 
+let mayStore = 1 in
 def STS_RUR__32 : XYGPUPGuardInst<
     (outs ),
     (ins RStrideOMOpr:$ra_rstride, RegOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, RegOpr:$rc),
@@ -16122,6 +16233,7 @@ def STS_RUR__32 : XYGPUPGuardInst<
   let Inst{91-90} = ra_rstride;
 }
 
+let mayStore = 1 in
 def STS_RUR__S16 : XYGPUPGuardInst<
     (outs ),
     (ins RStrideOMOpr:$ra_rstride, RegOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, RegOpr:$rc),
@@ -16140,6 +16252,7 @@ def STS_RUR__S16 : XYGPUPGuardInst<
   let Inst{91-90} = ra_rstride;
 }
 
+let mayStore = 1 in
 def STS_RUR__S8 : XYGPUPGuardInst<
     (outs ),
     (ins RStrideOMOpr:$ra_rstride, RegOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, RegOpr:$rc),
@@ -16158,6 +16271,7 @@ def STS_RUR__S8 : XYGPUPGuardInst<
   let Inst{91-90} = ra_rstride;
 }
 
+let mayStore = 1 in
 def STS_RUR__U16 : XYGPUPGuardInst<
     (outs ),
     (ins RStrideOMOpr:$ra_rstride, RegOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, RegOpr:$rc),
@@ -16176,6 +16290,7 @@ def STS_RUR__U16 : XYGPUPGuardInst<
   let Inst{91-90} = ra_rstride;
 }
 
+let mayStore = 1 in
 def STS_RUR__U8 : XYGPUPGuardInst<
     (outs ),
     (ins RStrideOMOpr:$ra_rstride, RegOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, RegOpr:$rc),
@@ -16194,6 +16309,7 @@ def STS_RUR__U8 : XYGPUPGuardInst<
   let Inst{91-90} = ra_rstride;
 }
 
+let mayStore = 1 in
 def STS_RUR__64 : XYGPUPGuardInst<
     (outs ),
     (ins RStrideOMOpr:$ra_rstride, RegOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, RegDOpr:$rc),
@@ -16212,6 +16328,7 @@ def STS_RUR__64 : XYGPUPGuardInst<
   let Inst{91-90} = ra_rstride;
 }
 
+let mayStore = 1 in
 def ST_RUR__128_S32_U64 : XYGPUPGuardInst<
     (outs ),
     (ins RegOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, RegQOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -16235,6 +16352,7 @@ def ST_RUR__128_S32_U64 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def ST_RUR__128_U64_S32 : XYGPUPGuardInst<
     (outs ),
     (ins RegDOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, RegQOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -16258,6 +16376,7 @@ def ST_RUR__128_U64_S32 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def ST_RUR__128_U64_U64 : XYGPUPGuardInst<
     (outs ),
     (ins RegDOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, RegQOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -16281,6 +16400,7 @@ def ST_RUR__128_U64_U64 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def ST_RUR__32_S32_U64 : XYGPUPGuardInst<
     (outs ),
     (ins RegOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -16304,6 +16424,7 @@ def ST_RUR__32_S32_U64 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def ST_RUR__S16_S32_U64 : XYGPUPGuardInst<
     (outs ),
     (ins RegOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -16327,6 +16448,7 @@ def ST_RUR__S16_S32_U64 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def ST_RUR__S8_S32_U64 : XYGPUPGuardInst<
     (outs ),
     (ins RegOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -16350,6 +16472,7 @@ def ST_RUR__S8_S32_U64 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def ST_RUR__U16_S32_U64 : XYGPUPGuardInst<
     (outs ),
     (ins RegOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -16373,6 +16496,7 @@ def ST_RUR__U16_S32_U64 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def ST_RUR__U8_S32_U64 : XYGPUPGuardInst<
     (outs ),
     (ins RegOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -16396,6 +16520,7 @@ def ST_RUR__U8_S32_U64 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def ST_RUR__32_U64_S32 : XYGPUPGuardInst<
     (outs ),
     (ins RegDOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -16419,6 +16544,7 @@ def ST_RUR__32_U64_S32 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def ST_RUR__S16_U64_S32 : XYGPUPGuardInst<
     (outs ),
     (ins RegDOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -16442,6 +16568,7 @@ def ST_RUR__S16_U64_S32 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def ST_RUR__S8_U64_S32 : XYGPUPGuardInst<
     (outs ),
     (ins RegDOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -16465,6 +16592,7 @@ def ST_RUR__S8_U64_S32 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def ST_RUR__U16_U64_S32 : XYGPUPGuardInst<
     (outs ),
     (ins RegDOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -16488,6 +16616,7 @@ def ST_RUR__U16_U64_S32 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def ST_RUR__U8_U64_S32 : XYGPUPGuardInst<
     (outs ),
     (ins RegDOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -16511,6 +16640,7 @@ def ST_RUR__U8_U64_S32 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def ST_RUR__32_U64_U64 : XYGPUPGuardInst<
     (outs ),
     (ins RegDOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -16534,6 +16664,7 @@ def ST_RUR__32_U64_U64 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def ST_RUR__S16_U64_U64 : XYGPUPGuardInst<
     (outs ),
     (ins RegDOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -16557,6 +16688,7 @@ def ST_RUR__S16_U64_U64 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def ST_RUR__S8_U64_U64 : XYGPUPGuardInst<
     (outs ),
     (ins RegDOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -16580,6 +16712,7 @@ def ST_RUR__S8_U64_U64 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def ST_RUR__U16_U64_U64 : XYGPUPGuardInst<
     (outs ),
     (ins RegDOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -16603,6 +16736,7 @@ def ST_RUR__U16_U64_U64 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def ST_RUR__U8_U64_U64 : XYGPUPGuardInst<
     (outs ),
     (ins RegDOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, RegOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -16626,6 +16760,7 @@ def ST_RUR__U8_U64_U64 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def ST_RUR__64_S32_U64 : XYGPUPGuardInst<
     (outs ),
     (ins RegOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, RegDOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -16649,6 +16784,7 @@ def ST_RUR__64_S32_U64 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def ST_RUR__64_U64_S32 : XYGPUPGuardInst<
     (outs ),
     (ins RegDOpr:$ra, URegOpr:$urb, SImm24Opr:$offset, RegDOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
@@ -16672,6 +16808,7 @@ def ST_RUR__64_U64_S32 : XYGPUPGuardInst<
   let Inst{37-32} = urb;
 }
 
+let mayStore = 1 in
 def ST_RUR__64_U64_U64 : XYGPUPGuardInst<
     (outs ),
     (ins RegDOpr:$ra, URegDOpr:$urb, SImm24Opr:$offset, RegDOpr:$rc, L1EvictPriorityIMOpr:$l1prio, MEMOrderIMOpr:$ord, MEMScopeIMOpr:$sco),
