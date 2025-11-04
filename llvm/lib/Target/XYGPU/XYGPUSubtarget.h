@@ -16,6 +16,7 @@
 #include "XYGPUFrameLowering.h"
 #include "XYGPUInstrInfo.h"
 #include "XYGPURegisterInfo.h"
+#include "XYGPUISelLowering.h"
 
 #define GET_SUBTARGETINFO_HEADER
 #include "XYGPUGenSubtargetInfo.inc"
@@ -28,7 +29,7 @@ private:
   virtual void anchor();
 
   XYGPURegisterInfo RegInfo;
-
+  XYGPUTargetLowering TLInfo;
 public:
   // Initializes the data members to match that of the specified triple.
   XYGPUSubtarget(const Triple &TT, StringRef GPU, StringRef FS,
@@ -44,6 +45,10 @@ public:
                                                   const TargetMachine &TM);
 
   const XYGPURegisterInfo *getRegisterInfo() const override { return &RegInfo; }
+
+  const XYGPUTargetLowering *getTargetLowering() const override {
+    return &TLInfo;
+  }
 };
 } // end namespace llvm
 

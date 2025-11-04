@@ -11,6 +11,7 @@
 //===----------------------------------------------------------------------===//
 
 #include "XYGPUSubtarget.h"
+#include "XYGPUISelLowering.h"
 
 using namespace llvm;
 
@@ -30,6 +31,7 @@ XYGPUSubtarget::initializeSubtargetDependencies(StringRef GPU, StringRef FS,
   return *this;
 }
 
-XYGPUSubtarget::XYGPUSubtarget(const Triple &TT, StringRef GPU, StringRef FS,
-                               const TargetMachine &TM)
-    : XYGPUGenSubtargetInfo(TT, GPU, /*TuneCPU*/ GPU, FS), RegInfo() {}
+XYGPUSubtarget::XYGPUSubtarget(const Triple &TT, StringRef GPU,
+                               StringRef FS, const TargetMachine &TM)
+    : XYGPUGenSubtargetInfo(TT, GPU, /*TuneCPU*/ GPU, FS),
+      RegInfo(), TLInfo(TM, *this) {}

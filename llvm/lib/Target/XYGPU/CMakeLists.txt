@@ -20,6 +20,7 @@ add_llvm_target(XYGPUCodeGen
   XYGPUTargetMachine.cpp
   XYGPUAsmPrinter.cpp
   XYGPUMCInstLower.cpp
+  XYGPUISelLowering.cpp
 
   ADD_TO_COMPONENT
   XYGPU
