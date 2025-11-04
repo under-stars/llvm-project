@@ -1347,6 +1347,8 @@ StringRef ELFObjectFile<ELFT>::getFileFormatName() const {
       return "elf64-ve";
     case ELF::EM_LOONGARCH:
       return "elf64-loongarch";
+    case ELF::EM_XYGPU:
+      return "elf64-xygpu";
     default:
       return "elf64-unknown";
     }
@@ -1422,6 +1424,12 @@ template <class ELFT> Triple::ArchType ELFObjectFile<ELFT>::getArch() const {
       return Triple::amdgcn;
 
     return Triple::UnknownArch;
+  }
+
+  case ELF::EM_XYGPU: {
+    if (!IsLittleEndian)
+      return Triple::UnknownArch;
+    return Triple::xygpu;
   }
 
   case ELF::EM_CUDA: {

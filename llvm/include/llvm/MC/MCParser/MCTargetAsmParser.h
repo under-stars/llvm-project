@@ -522,6 +522,8 @@ public:
   virtual bool isLabel(AsmToken &Token) { return true; };
   // Return whether this parser accept star as start of statement
   virtual bool starIsStartOfStatement() { return false; };
+  // Consume custom leading tokens parser in statement
+  virtual void consumeCustomLeadingTokens() {}
 
   virtual MCSymbolRefExpr::VariantKind
   getVariantKindForName(StringRef Name) const {

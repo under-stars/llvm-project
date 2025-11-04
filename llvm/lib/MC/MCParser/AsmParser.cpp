@@ -1790,6 +1790,9 @@ bool AsmParser::parseStatement(ParseStatementInfo &Info,
     Lex();
     return false;
   }
+
+  getTargetParser().consumeCustomLeadingTokens();
+
   // Statements always start with an identifier.
   AsmToken ID = getTok();
   SMLoc IDLoc = ID.getLoc();

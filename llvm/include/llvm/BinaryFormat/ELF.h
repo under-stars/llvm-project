@@ -323,6 +323,7 @@ enum {
   EM_VE = 251,            // NEC SX-Aurora VE
   EM_CSKY = 252,          // C-SKY 32-bit processor
   EM_LOONGARCH = 258,     // LoongArch
+  EM_XYGPU = 511,         // XingYun GPU
 };
 
 // Object file classes.
@@ -905,6 +906,11 @@ enum : unsigned {
 // ELF Relocation types for AMDGPU
 enum {
 #include "ELFRelocs/AMDGPU.def"
+};
+
+// ELF Relocation types for XYGPU
+enum {
+#include "ELFRelocs/XYGPU.def"
 };
 
 // NVPTX specific e_flags.
