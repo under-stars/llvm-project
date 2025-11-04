@@ -1291,12 +1291,40 @@ ParseStatus XYGPUAsmParser::parseAsmFPImm(AsmOprVector &Operands,
   SMLoc SLoc = getLoc();
   SmallVector<AsmToken, 2> Tokens;
 
+  bool IsNegative = false;
+  if (getLexer().is(AsmToken::Minus)) {
+    IsNegative = true;
+    lexWithBackup(Tokens);
+  }
+
+  // fp imm in the form like `inf`
+  if (getLexer().is(AsmToken::Identifier)) {
+    StringRef FPValStr = getLexer().getTok().getString();
+    if (FPValStr.compare_insensitive("inf") == 0) {
+      getLexer().Lex();
+      APFloat RealVal = APFloat::getInf(APFloat::IEEEdouble(), IsNegative);
+      auto ImmOpr = XYGPUOperand::createFPImm(
+          RealVal.bitcastToAPInt().getZExtValue(), SLoc, getLoc());
+      Operands.push_back(
+          XYGPUAsmOperand::createSingle(std::move(ImmOpr), SLoc, getLoc()));
+      OperandKinds.push_back(AsmOperandKind::Imm);
+      return ParseStatus::Success;
+    }
+    rollbackLexer(Tokens);
+    return ParseStatus::NoMatch;
+  }
+
+  // fp imm in the form like `0f80`
   if (getLexer().is(AsmToken::Integer) &&
       getLexer().getTok().getIntVal() == 0) {
     lexWithBackup(Tokens);
     if (getLexer().is(AsmToken::Identifier)) {
       StringRef FPValStr = getLexer().getTok().getString();
       if (FPValStr.starts_with_insensitive("f")) {
+        if (IsNegative) {
+          rollbackLexer(Tokens);
+          return ParseStatus::NoMatch;
+        }
         FPValStr = FPValStr.substr(1);
         uint64_t FPBin = 0;
         if (!FPValStr.getAsInteger(16, FPBin)) {
@@ -1312,12 +1340,7 @@ ParseStatus XYGPUAsmParser::parseAsmFPImm(AsmOprVector &Operands,
     rollbackLexer(Tokens);
   }
 
-  bool IsNegative = false;
-  if (getLexer().is(AsmToken::Minus)) {
-    IsNegative = true;
-    lexWithBackup(Tokens);
-  }
-
+  // fp imm in normal form
   if (getLexer().isNot(AsmToken::Real)) {
     rollbackLexer(Tokens);
     return ParseStatus::NoMatch;

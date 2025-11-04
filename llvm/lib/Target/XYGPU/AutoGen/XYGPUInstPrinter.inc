@@ -9823,7 +9823,7 @@ void XYGPUInstPrinter::printOprsOfInstrDADD_RI(const MCInst *MI, raw_ostream &O)
   int64_t Val;
   Val = MI->getOperand(OprIdx).getImm();
   Val <<= 32;
-  O << format("%.12g", APFloat(APFloat::IEEEdouble(), APInt(64, Val)).convertToDouble());
+  printFPImm(APFloat(APFloat::IEEEdouble(), APInt(64, Val)), O, 32);
 }
 
 void XYGPUInstPrinter::printOprsOfInstrDADD_RR(const MCInst *MI, raw_ostream &O) {
@@ -9997,7 +9997,7 @@ void XYGPUInstPrinter::printOprsOfInstrDFMA_RIR(const MCInst *MI, raw_ostream &O
   int64_t Val;
   Val = MI->getOperand(OprIdx).getImm();
   Val <<= 32;
-  O << format("%.12g", APFloat(APFloat::IEEEdouble(), APInt(64, Val)).convertToDouble());
+  printFPImm(APFloat(APFloat::IEEEdouble(), APInt(64, Val)), O, 32);
   O << ", ";
 
   OprIdx = XYGPU::getNamedOperandIdx(Opcode, XYGPU::OpName::rc_neg);
@@ -10108,7 +10108,7 @@ void XYGPUInstPrinter::printOprsOfInstrDFMA_RRI(const MCInst *MI, raw_ostream &O
   int64_t Val;
   Val = MI->getOperand(OprIdx).getImm();
   Val <<= 32;
-  O << format("%.12g", APFloat(APFloat::IEEEdouble(), APInt(64, Val)).convertToDouble());
+  printFPImm(APFloat(APFloat::IEEEdouble(), APInt(64, Val)), O, 32);
 }
 
 void XYGPUInstPrinter::printOprsOfInstrDFMA_RRR(const MCInst *MI, raw_ostream &O) {
@@ -10326,7 +10326,7 @@ void XYGPUInstPrinter::printOprsOfInstrDMNMX_RI(const MCInst *MI, raw_ostream &O
   int64_t Val;
   Val = MI->getOperand(OprIdx).getImm();
   Val <<= 32;
-  O << format("%.12g", APFloat(APFloat::IEEEdouble(), APInt(64, Val)).convertToDouble());
+  printFPImm(APFloat(APFloat::IEEEdouble(), APInt(64, Val)), O, 32);
   O << ", ";
 
   OprIdx = XYGPU::getNamedOperandIdx(Opcode, XYGPU::OpName::pp_not);
@@ -10491,7 +10491,7 @@ void XYGPUInstPrinter::printOprsOfInstrDMUL_RI(const MCInst *MI, raw_ostream &O)
   int64_t Val;
   Val = MI->getOperand(OprIdx).getImm();
   Val <<= 32;
-  O << format("%.12g", APFloat(APFloat::IEEEdouble(), APInt(64, Val)).convertToDouble());
+  printFPImm(APFloat(APFloat::IEEEdouble(), APInt(64, Val)), O, 32);
 }
 
 void XYGPUInstPrinter::printOprsOfInstrDMUL_RR(const MCInst *MI, raw_ostream &O) {
@@ -10648,7 +10648,7 @@ void XYGPUInstPrinter::printOprsOfInstrDSETP_RI(const MCInst *MI, raw_ostream &O
   int64_t Val;
   Val = MI->getOperand(OprIdx).getImm();
   Val <<= 32;
-  O << format("%.12g", APFloat(APFloat::IEEEdouble(), APInt(64, Val)).convertToDouble());
+  printFPImm(APFloat(APFloat::IEEEdouble(), APInt(64, Val)), O, 32);
   O << ", ";
 
   OprIdx = XYGPU::getNamedOperandIdx(Opcode, XYGPU::OpName::pp_not);
@@ -10904,23 +10904,23 @@ void XYGPUInstPrinter::printOprsOfInstrF2FP_RIR(const MCInst *MI, raw_ostream &O
   int64_t OprVal;
   OprVal = MI->getOperand(6).getImm();
   if (OprVal == 0) {
-    O << format("%.12g", APFloat(APFloat::IEEEsingle(), APInt(32, Val)).convertToDouble());
+    printFPImm(APFloat(APFloat::IEEEsingle(), APInt(32, Val)), O);
   } else if (OprVal == 1) {
-    O << format("%.12g", APFloat(APFloat::IEEEhalf(), APInt(16, Val)).convertToDouble());
+    printFPImm(APFloat(APFloat::IEEEhalf(), APInt(16, Val)), O);
   } else if (OprVal == 2) {
-    O << format("%.12g", APFloat(APFloat::BFloat(), APInt(16, Val)).convertToDouble());
+    printFPImm(APFloat(APFloat::BFloat(), APInt(16, Val)), O);
   } else if (OprVal == 3) {
-    O << format("%.12g", APFloat(APFloat::Float8E5M2(), APInt(8, Val)).convertToDouble());
+    printFPImm(APFloat(APFloat::Float8E5M2(), APInt(8, Val)), O);
   } else if (OprVal == 4) {
-    O << format("%.12g", APFloat(APFloat::Float8E4M3FN(), APInt(8, Val)).convertToDouble());
+    printFPImm(APFloat(APFloat::Float8E4M3FN(), APInt(8, Val)), O);
   } else if (OprVal == 5) {
-    O << format("%.12g", APFloat(APFloat::Float8E8M0FNU(), APInt(8, Val)).convertToDouble());
+    printFPImm(APFloat(APFloat::Float8E8M0FNU(), APInt(8, Val)), O);
   } else if (OprVal == 6) {
-    O << format("%.12g", APFloat(APFloat::Float6E3M2FN(), APInt(6, Val)).convertToDouble());
+    printFPImm(APFloat(APFloat::Float6E3M2FN(), APInt(6, Val)), O);
   } else if (OprVal == 7) {
-    O << format("%.12g", APFloat(APFloat::Float6E2M3FN(), APInt(6, Val)).convertToDouble());
+    printFPImm(APFloat(APFloat::Float6E2M3FN(), APInt(6, Val)), O);
   } else if (OprVal == 8) {
-    O << format("%.12g", APFloat(APFloat::Float4E2M1FN(), APInt(4, Val)).convertToDouble());
+    printFPImm(APFloat(APFloat::Float4E2M1FN(), APInt(4, Val)), O);
   }
   O << ", ";
 
@@ -11776,7 +11776,7 @@ void XYGPUInstPrinter::printOprsOfInstrF2IP_RIR(const MCInst *MI, raw_ostream &O
   OprIdx = XYGPU::getNamedOperandIdx(Opcode, XYGPU::OpName::vb);
   int64_t Val;
   Val = MI->getOperand(OprIdx).getImm();
-  O << format("%.12g", APFloat(APFloat::IEEEsingle(), APInt(32, Val)).convertToDouble());
+  printFPImm(APFloat(APFloat::IEEEsingle(), APInt(32, Val)), O);
   O << ", ";
 
   OprIdx = XYGPU::getNamedOperandIdx(Opcode, XYGPU::OpName::rc);
@@ -13257,7 +13257,7 @@ void XYGPUInstPrinter::printOprsOfInstrFADD_RI(const MCInst *MI, raw_ostream &O)
   OprIdx = XYGPU::getNamedOperandIdx(Opcode, XYGPU::OpName::vb);
   int64_t Val;
   Val = MI->getOperand(OprIdx).getImm();
-  O << format("%.12g", APFloat(APFloat::IEEEsingle(), APInt(32, Val)).convertToDouble());
+  printFPImm(APFloat(APFloat::IEEEsingle(), APInt(32, Val)), O);
 }
 
 void XYGPUInstPrinter::printOprsOfInstrFADD_RR(const MCInst *MI, raw_ostream &O) {
@@ -13397,7 +13397,7 @@ void XYGPUInstPrinter::printOprsOfInstrFCHK_RI(const MCInst *MI, raw_ostream &O)
   OprIdx = XYGPU::getNamedOperandIdx(Opcode, XYGPU::OpName::vb);
   int64_t Val;
   Val = MI->getOperand(OprIdx).getImm();
-  O << format("%.12g", APFloat(APFloat::IEEEsingle(), APInt(32, Val)).convertToDouble());
+  printFPImm(APFloat(APFloat::IEEEsingle(), APInt(32, Val)), O);
 }
 
 void XYGPUInstPrinter::printOprsOfInstrFCHK_RR(const MCInst *MI, raw_ostream &O) {
@@ -13549,7 +13549,7 @@ void XYGPUInstPrinter::printOprsOfInstrFFMA_RIR(const MCInst *MI, raw_ostream &O
   OprIdx = XYGPU::getNamedOperandIdx(Opcode, XYGPU::OpName::vb);
   int64_t Val;
   Val = MI->getOperand(OprIdx).getImm();
-  O << format("%.12g", APFloat(APFloat::IEEEsingle(), APInt(32, Val)).convertToDouble());
+  printFPImm(APFloat(APFloat::IEEEsingle(), APInt(32, Val)), O);
   O << ", ";
 
   OprIdx = XYGPU::getNamedOperandIdx(Opcode, XYGPU::OpName::rc_neg);
@@ -13659,7 +13659,7 @@ void XYGPUInstPrinter::printOprsOfInstrFFMA_RRI(const MCInst *MI, raw_ostream &O
   OprIdx = XYGPU::getNamedOperandIdx(Opcode, XYGPU::OpName::vc);
   int64_t Val;
   Val = MI->getOperand(OprIdx).getImm();
-  O << format("%.12g", APFloat(APFloat::IEEEsingle(), APInt(32, Val)).convertToDouble());
+  printFPImm(APFloat(APFloat::IEEEsingle(), APInt(32, Val)), O);
 }
 
 void XYGPUInstPrinter::printOprsOfInstrFFMA_RRR(const MCInst *MI, raw_ostream &O) {
@@ -13948,7 +13948,7 @@ void XYGPUInstPrinter::printOprsOfInstrFMNMX_RI(const MCInst *MI, raw_ostream &O
   OprIdx = XYGPU::getNamedOperandIdx(Opcode, XYGPU::OpName::vb);
   int64_t Val;
   Val = MI->getOperand(OprIdx).getImm();
-  O << format("%.12g", APFloat(APFloat::IEEEsingle(), APInt(32, Val)).convertToDouble());
+  printFPImm(APFloat(APFloat::IEEEsingle(), APInt(32, Val)), O);
   O << ", ";
 
   OprIdx = XYGPU::getNamedOperandIdx(Opcode, XYGPU::OpName::pp_not);
@@ -14112,7 +14112,7 @@ void XYGPUInstPrinter::printOprsOfInstrFMUL_RI(const MCInst *MI, raw_ostream &O)
   OprIdx = XYGPU::getNamedOperandIdx(Opcode, XYGPU::OpName::vb);
   int64_t Val;
   Val = MI->getOperand(OprIdx).getImm();
-  O << format("%.12g", APFloat(APFloat::IEEEsingle(), APInt(32, Val)).convertToDouble());
+  printFPImm(APFloat(APFloat::IEEEsingle(), APInt(32, Val)), O);
 }
 
 void XYGPUInstPrinter::printOprsOfInstrFMUL_RR(const MCInst *MI, raw_ostream &O) {
@@ -14425,7 +14425,7 @@ void XYGPUInstPrinter::printOprsOfInstrFSEL_RI(const MCInst *MI, raw_ostream &O)
   OprIdx = XYGPU::getNamedOperandIdx(Opcode, XYGPU::OpName::vb);
   int64_t Val;
   Val = MI->getOperand(OprIdx).getImm();
-  O << format("%.12g", APFloat(APFloat::IEEEsingle(), APInt(32, Val)).convertToDouble());
+  printFPImm(APFloat(APFloat::IEEEsingle(), APInt(32, Val)), O);
   O << ", ";
 
   OprIdx = XYGPU::getNamedOperandIdx(Opcode, XYGPU::OpName::pp_not);
@@ -14605,7 +14605,7 @@ void XYGPUInstPrinter::printOprsOfInstrFSETP_RI(const MCInst *MI, raw_ostream &O
   OprIdx = XYGPU::getNamedOperandIdx(Opcode, XYGPU::OpName::vb);
   int64_t Val;
   Val = MI->getOperand(OprIdx).getImm();
-  O << format("%.12g", APFloat(APFloat::IEEEsingle(), APInt(32, Val)).convertToDouble());
+  printFPImm(APFloat(APFloat::IEEEsingle(), APInt(32, Val)), O);
   O << ", ";
 
   OprIdx = XYGPU::getNamedOperandIdx(Opcode, XYGPU::OpName::pp_not);
@@ -14785,7 +14785,7 @@ void XYGPUInstPrinter::printOprsOfInstrFSET_RI(const MCInst *MI, raw_ostream &O)
   OprIdx = XYGPU::getNamedOperandIdx(Opcode, XYGPU::OpName::vb);
   int64_t Val;
   Val = MI->getOperand(OprIdx).getImm();
-  O << format("%.12g", APFloat(APFloat::IEEEsingle(), APInt(32, Val)).convertToDouble());
+  printFPImm(APFloat(APFloat::IEEEsingle(), APInt(32, Val)), O);
   O << ", ";
 
   OprIdx = XYGPU::getNamedOperandIdx(Opcode, XYGPU::OpName::pp_not);
@@ -15043,13 +15043,13 @@ void XYGPUInstPrinter::printOprsOfInstrHADD2_RI(const MCInst *MI, raw_ostream &O
   int64_t OprVal;
   OprVal = MI->getOperand(7).getImm();
   if (OprVal == 0) {
-    O << format("%.12g", APFloat(APFloat::IEEEhalf(), APInt(16, Val >> 16)).convertToDouble());
+    printFPImm(APFloat(APFloat::IEEEhalf(), APInt(16, Val >> 16)), O);
     O << ", ";
-    O << format("%.12g", APFloat(APFloat::IEEEhalf(), APInt(16, Val & 0xffff)).convertToDouble());
+    printFPImm(APFloat(APFloat::IEEEhalf(), APInt(16, Val & 0xffff)), O);
   } else if (OprVal == 1) {
-    O << format("%.12g", APFloat(APFloat::BFloat(), APInt(16, Val >> 16)).convertToDouble());
+    printFPImm(APFloat(APFloat::BFloat(), APInt(16, Val >> 16)), O);
     O << ", ";
-    O << format("%.12g", APFloat(APFloat::BFloat(), APInt(16, Val & 0xffff)).convertToDouble());
+    printFPImm(APFloat(APFloat::BFloat(), APInt(16, Val & 0xffff)), O);
   }
 }
 
@@ -15242,13 +15242,13 @@ void XYGPUInstPrinter::printOprsOfInstrHFMA2_RIR(const MCInst *MI, raw_ostream &
   int64_t OprVal;
   OprVal = MI->getOperand(11).getImm();
   if (OprVal == 0) {
-    O << format("%.12g", APFloat(APFloat::IEEEhalf(), APInt(16, Val >> 16)).convertToDouble());
+    printFPImm(APFloat(APFloat::IEEEhalf(), APInt(16, Val >> 16)), O);
     O << ", ";
-    O << format("%.12g", APFloat(APFloat::IEEEhalf(), APInt(16, Val & 0xffff)).convertToDouble());
+    printFPImm(APFloat(APFloat::IEEEhalf(), APInt(16, Val & 0xffff)), O);
   } else if (OprVal == 1) {
-    O << format("%.12g", APFloat(APFloat::BFloat(), APInt(16, Val >> 16)).convertToDouble());
+    printFPImm(APFloat(APFloat::BFloat(), APInt(16, Val >> 16)), O);
     O << ", ";
-    O << format("%.12g", APFloat(APFloat::BFloat(), APInt(16, Val & 0xffff)).convertToDouble());
+    printFPImm(APFloat(APFloat::BFloat(), APInt(16, Val & 0xffff)), O);
   }
   O << ", ";
 
@@ -15389,13 +15389,13 @@ void XYGPUInstPrinter::printOprsOfInstrHFMA2_RRI(const MCInst *MI, raw_ostream &
   int64_t OprVal;
   OprVal = MI->getOperand(11).getImm();
   if (OprVal == 0) {
-    O << format("%.12g", APFloat(APFloat::IEEEhalf(), APInt(16, Val >> 16)).convertToDouble());
+    printFPImm(APFloat(APFloat::IEEEhalf(), APInt(16, Val >> 16)), O);
     O << ", ";
-    O << format("%.12g", APFloat(APFloat::IEEEhalf(), APInt(16, Val & 0xffff)).convertToDouble());
+    printFPImm(APFloat(APFloat::IEEEhalf(), APInt(16, Val & 0xffff)), O);
   } else if (OprVal == 1) {
-    O << format("%.12g", APFloat(APFloat::BFloat(), APInt(16, Val >> 16)).convertToDouble());
+    printFPImm(APFloat(APFloat::BFloat(), APInt(16, Val >> 16)), O);
     O << ", ";
-    O << format("%.12g", APFloat(APFloat::BFloat(), APInt(16, Val & 0xffff)).convertToDouble());
+    printFPImm(APFloat(APFloat::BFloat(), APInt(16, Val & 0xffff)), O);
   }
 }
 
@@ -16254,13 +16254,13 @@ void XYGPUInstPrinter::printOprsOfInstrHMNMX2_RI(const MCInst *MI, raw_ostream &
   int64_t OprVal;
   OprVal = MI->getOperand(9).getImm();
   if (OprVal == 0) {
-    O << format("%.12g", APFloat(APFloat::IEEEhalf(), APInt(16, Val >> 16)).convertToDouble());
+    printFPImm(APFloat(APFloat::IEEEhalf(), APInt(16, Val >> 16)), O);
     O << ", ";
-    O << format("%.12g", APFloat(APFloat::IEEEhalf(), APInt(16, Val & 0xffff)).convertToDouble());
+    printFPImm(APFloat(APFloat::IEEEhalf(), APInt(16, Val & 0xffff)), O);
   } else if (OprVal == 1) {
-    O << format("%.12g", APFloat(APFloat::BFloat(), APInt(16, Val >> 16)).convertToDouble());
+    printFPImm(APFloat(APFloat::BFloat(), APInt(16, Val >> 16)), O);
     O << ", ";
-    O << format("%.12g", APFloat(APFloat::BFloat(), APInt(16, Val & 0xffff)).convertToDouble());
+    printFPImm(APFloat(APFloat::BFloat(), APInt(16, Val & 0xffff)), O);
   }
   O << ", ";
 
@@ -16461,13 +16461,13 @@ void XYGPUInstPrinter::printOprsOfInstrHMUL2_RI(const MCInst *MI, raw_ostream &O
   int64_t OprVal;
   OprVal = MI->getOperand(7).getImm();
   if (OprVal == 0) {
-    O << format("%.12g", APFloat(APFloat::IEEEhalf(), APInt(16, Val >> 16)).convertToDouble());
+    printFPImm(APFloat(APFloat::IEEEhalf(), APInt(16, Val >> 16)), O);
     O << ", ";
-    O << format("%.12g", APFloat(APFloat::IEEEhalf(), APInt(16, Val & 0xffff)).convertToDouble());
+    printFPImm(APFloat(APFloat::IEEEhalf(), APInt(16, Val & 0xffff)), O);
   } else if (OprVal == 1) {
-    O << format("%.12g", APFloat(APFloat::BFloat(), APInt(16, Val >> 16)).convertToDouble());
+    printFPImm(APFloat(APFloat::BFloat(), APInt(16, Val >> 16)), O);
     O << ", ";
-    O << format("%.12g", APFloat(APFloat::BFloat(), APInt(16, Val & 0xffff)).convertToDouble());
+    printFPImm(APFloat(APFloat::BFloat(), APInt(16, Val & 0xffff)), O);
   }
 }
 
@@ -16652,13 +16652,13 @@ void XYGPUInstPrinter::printOprsOfInstrHSET2_RI(const MCInst *MI, raw_ostream &O
   int64_t OprVal;
   OprVal = MI->getOperand(11).getImm();
   if (OprVal == 0) {
-    O << format("%.12g", APFloat(APFloat::IEEEhalf(), APInt(16, Val >> 16)).convertToDouble());
+    printFPImm(APFloat(APFloat::IEEEhalf(), APInt(16, Val >> 16)), O);
     O << ", ";
-    O << format("%.12g", APFloat(APFloat::IEEEhalf(), APInt(16, Val & 0xffff)).convertToDouble());
+    printFPImm(APFloat(APFloat::IEEEhalf(), APInt(16, Val & 0xffff)), O);
   } else if (OprVal == 1) {
-    O << format("%.12g", APFloat(APFloat::BFloat(), APInt(16, Val >> 16)).convertToDouble());
+    printFPImm(APFloat(APFloat::BFloat(), APInt(16, Val >> 16)), O);
     O << ", ";
-    O << format("%.12g", APFloat(APFloat::BFloat(), APInt(16, Val & 0xffff)).convertToDouble());
+    printFPImm(APFloat(APFloat::BFloat(), APInt(16, Val & 0xffff)), O);
   }
   O << ", ";
 
@@ -16875,13 +16875,13 @@ void XYGPUInstPrinter::printOprsOfInstrHSETP2_RI(const MCInst *MI, raw_ostream &
   int64_t OprVal;
   OprVal = MI->getOperand(11).getImm();
   if (OprVal == 0) {
-    O << format("%.12g", APFloat(APFloat::IEEEhalf(), APInt(16, Val >> 16)).convertToDouble());
+    printFPImm(APFloat(APFloat::IEEEhalf(), APInt(16, Val >> 16)), O);
     O << ", ";
-    O << format("%.12g", APFloat(APFloat::IEEEhalf(), APInt(16, Val & 0xffff)).convertToDouble());
+    printFPImm(APFloat(APFloat::IEEEhalf(), APInt(16, Val & 0xffff)), O);
   } else if (OprVal == 1) {
-    O << format("%.12g", APFloat(APFloat::BFloat(), APInt(16, Val >> 16)).convertToDouble());
+    printFPImm(APFloat(APFloat::BFloat(), APInt(16, Val >> 16)), O);
     O << ", ";
-    O << format("%.12g", APFloat(APFloat::BFloat(), APInt(16, Val & 0xffff)).convertToDouble());
+    printFPImm(APFloat(APFloat::BFloat(), APInt(16, Val & 0xffff)), O);
   }
   O << ", ";
 
@@ -24888,22 +24888,22 @@ void XYGPUInstPrinter::printOprsOfInstrMUFU_I(const MCInst *MI, raw_ostream &O) 
   int64_t OprVal;
   OprVal = MI->getOperand(2).getImm();
   if (OprVal == 0) {
-    O << format("%.12g", APFloat(APFloat::IEEEsingle(), APInt(32, Val)).convertToDouble());
+    printFPImm(APFloat(APFloat::IEEEsingle(), APInt(32, Val)), O);
   } else if (OprVal == 1) {
     Val <<= 32;
-    O << format("%.12g", APFloat(APFloat::IEEEdouble(), APInt(64, Val)).convertToDouble());
+    printFPImm(APFloat(APFloat::IEEEdouble(), APInt(64, Val)), O, 32);
   } else if (OprVal == 2) {
-    O << format("%.12g", APFloat(APFloat::IEEEhalf(), APInt(16, Val >> 16)).convertToDouble());
+    printFPImm(APFloat(APFloat::IEEEhalf(), APInt(16, Val >> 16)), O);
     O << ", ";
-    O << format("%.12g", APFloat(APFloat::IEEEhalf(), APInt(16, Val & 0xffff)).convertToDouble());
+    printFPImm(APFloat(APFloat::IEEEhalf(), APInt(16, Val & 0xffff)), O);
   } else if (OprVal == 3) {
-    O << format("%.12g", APFloat(APFloat::BFloat(), APInt(16, Val >> 16)).convertToDouble());
+    printFPImm(APFloat(APFloat::BFloat(), APInt(16, Val >> 16)), O);
     O << ", ";
-    O << format("%.12g", APFloat(APFloat::BFloat(), APInt(16, Val & 0xffff)).convertToDouble());
+    printFPImm(APFloat(APFloat::BFloat(), APInt(16, Val & 0xffff)), O);
   } else if (OprVal == 4) {
-    O << format("%.12g", APFloat(APFloat::IEEEhalf(), APInt(16, Val)).convertToDouble());
+    printFPImm(APFloat(APFloat::IEEEhalf(), APInt(16, Val)), O);
   } else if (OprVal == 5) {
-    O << format("%.12g", APFloat(APFloat::BFloat(), APInt(16, Val)).convertToDouble());
+    printFPImm(APFloat(APFloat::BFloat(), APInt(16, Val)), O);
   }
 }
 

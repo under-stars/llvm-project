@@ -14,7 +14,6 @@
 #include "Utils/XYGPUBaseInfo.h"
 #include "Utils/XYGPUControlCode.h"
 #include "XYGPUDefines.h"
-#include "llvm/ADT/APFloat.h"
 #include "llvm/ADT/APInt.h"
 #include "llvm/MC/MCExpr.h"
 #include "llvm/MC/MCInst.h"
@@ -22,6 +21,7 @@
 #include "llvm/MC/MCRegisterInfo.h"
 #include "llvm/Support/CommandLine.h"
 #include <map>
+#include <sstream>
 #include <variant>
 
 using namespace llvm;
@@ -87,6 +87,18 @@ void XYGPUInstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
 // TODO: In order to match AsmWriter param list, do nothing.
 void XYGPUInstPrinter::printPCRelImm(const MCInst *MI, uint64_t Address,
                                       unsigned OpNo, raw_ostream &O) {
+}
+
+void XYGPUInstPrinter::printFPImm(const APFloat &FPImm, raw_ostream &O,
+                                  unsigned LSBOmittedSize) {
+  if (FPImm.isNaN()) {
+    uint64_t BinVal = FPImm.bitcastToAPInt().getZExtValue();
+    std::stringstream SS;
+    SS << std::hex << (BinVal >> LSBOmittedSize);
+    O << "0f" << SS.str();
+  } else {
+    O << format("%.12g", FPImm.convertToDouble());
+  }
 }
 
 void XYGPUInstPrinter::printRegularOperand(const MCInst *MI, unsigned OpNo,

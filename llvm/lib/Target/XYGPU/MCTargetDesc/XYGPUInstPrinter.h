@@ -14,6 +14,7 @@
 #define LLVM_LIB_TARGET_XYGPU_MCTARGETDESC_XYGPUINSTPRINTER_H
 
 #include "MCTargetDesc/XYGPUMCTargetDesc.h"
+#include "llvm/ADT/APFloat.h"
 #include "llvm/MC/MCInstPrinter.h"
 
 namespace llvm {
@@ -27,6 +28,8 @@ public:
                  const MCSubtargetInfo &STI, raw_ostream &O) override;
   void printOperand(const MCInst *MI, unsigned OpNo, raw_ostream &O,
                     const char *Modifier = nullptr);
+  void printFPImm(const APFloat &FPImm, raw_ostream &O,
+                  unsigned LSBOmittedSize=0);
   void printPCRelImm(const MCInst *MI, uint64_t Address, unsigned OpNo,
                      raw_ostream &O);
   void printRegularOperand(const MCInst *MI, unsigned OpNo, raw_ostream &O);
