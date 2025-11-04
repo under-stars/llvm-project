@@ -159,6 +159,7 @@ static const OffloadArchToStringMap arch_names[] = {
     GFX(1201), // gfx1201
     {OffloadArch::AMDGCNSPIRV, "amdgcnspirv", "compute_amdgcn"},
     {OffloadArch::Generic, "generic", ""},
+    {OffloadArch::XYGPU, "XYGPU", "compute_xygpu"},
     // clang-format on
 };
 #undef SM
@@ -231,6 +232,7 @@ CudaVersion MinVersionForOffloadArch(OffloadArch A) {
   case OffloadArch::SM_90:
     return CudaVersion::CUDA_118;
   case OffloadArch::SM_90a:
+  case OffloadArch::XYGPU:
     return CudaVersion::CUDA_120;
   case OffloadArch::SM_100:
   case OffloadArch::SM_100a:

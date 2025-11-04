@@ -9136,3 +9136,5 @@ def wasm_opt : Flag<["--"], "wasm-opt">,
   Group<m_Group>,
   HelpText<"Enable the wasm-opt optimizer (default)">,
   MarshallingInfoNegativeFlag<LangOpts<"NoWasmOpt">>;
+
+def asm_obj : Flag<["-"], "asmobj">, Visibility<[ClangOption, CC1Option, FC1Option]>;

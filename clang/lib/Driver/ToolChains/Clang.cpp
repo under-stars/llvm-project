@@ -5084,6 +5084,7 @@ void Clang::ConstructJob(Compilation &C, const JobAction &JA,
   auto LTOMode = IsDeviceOffloadAction ? D.getOffloadLTOMode() : D.getLTOMode();
   bool IsUsingLTO = LTOMode != LTOK_None;
 
+  bool IsXYGPU = IsHIP || IsCuda;
   // Extract API doesn't have a main input file, so invent a fake one as a
   // placeholder.
   InputInfo ExtractAPIPlaceholderInput(Inputs[0].getType(), "extract-api",
@@ -5113,7 +5114,9 @@ void Clang::ConstructJob(Compilation &C, const JobAction &JA,
       CudaDeviceInput = &I;
     } else if (IsOpenMPDevice && !OpenMPDeviceInput) {
       OpenMPDeviceInput = &I;
-    } else {
+    } else if (IsXYGPU){
+      CudaDeviceInput = &I;
+    }else {
       llvm_unreachable("unexpectedly given multiple inputs");
     }
   }

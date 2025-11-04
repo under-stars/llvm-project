@@ -233,6 +233,7 @@ void NVPTXTargetInfo::getTargetDefines(const LangOptions &Opts,
       case OffloadArch::GFX1201:
       case OffloadArch::AMDGCNSPIRV:
       case OffloadArch::Generic:
+      case OffloadArch::XYGPU:
       case OffloadArch::LAST:
         break;
       case OffloadArch::UNKNOWN:

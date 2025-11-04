@@ -51,6 +51,7 @@
 #include "ToolChains/VEToolchain.h"
 #include "ToolChains/WebAssembly.h"
 #include "ToolChains/XCore.h"
+#include "ToolChains/XYGPU.h"
 #include "ToolChains/ZOS.h"
 #include "clang/Basic/DiagnosticDriver.h"
 #include "clang/Basic/TargetID.h"
@@ -136,6 +137,9 @@ getNVIDIAOffloadTargetTriple(const Driver &D, const ArgList &Args,
                                                  : "nvptx-nvidia-cuda");
   }
   auto TT = getOffloadTargetTriple(D, Args);
+  // TODO: pretend we are some sort of cuda devices.
+  if (TT && TT->getArch() == llvm::Triple::xygpu)
+    return TT;
   if (TT && (TT->getArch() == llvm::Triple::spirv32 ||
              TT->getArch() == llvm::Triple::spirv64)) {
     if (Args.hasArg(options::OPT_emit_llvm))
@@ -892,7 +896,10 @@ void Driver::CreateOffloadingDeviceToolChains(Compilation &C,
     // Use the CUDA and host triples as the key into the ToolChains map,
     // because the device toolchain we create depends on both.
     auto &CudaTC = ToolChains[CudaTriple->str() + "/" + HostTriple.str()];
-    if (!CudaTC) {
+    if (!CudaTC && CudaTriple->getArch() == llvm::Triple::xygpu) {
+      CudaTC = std::make_unique<toolchains::XYGPUCudaToolChain>(*this, *CudaTriple,
+                                *HostTC, C.getInputArgs());
+    } else if (!CudaTC) {
       CudaTC = std::make_unique<toolchains::CudaToolChain>(
           *this, *CudaTriple, *HostTC, C.getInputArgs());
 
@@ -3461,6 +3468,8 @@ class OffloadingActionBuilder final {
         if (ToolChains.front()->getTriple().isSPIRV()) {
           if (ToolChains.front()->getTriple().getVendor() == llvm::Triple::AMD)
             GpuArchList.push_back(OffloadArch::AMDGCNSPIRV);
+          else if (ToolChains.front()->getTriple().isXYGPU())
+            GpuArchList.push_back(OffloadArch::XYGPU);
           else
             GpuArchList.push_back(OffloadArch::Generic);
         } else {
@@ -6776,6 +6785,9 @@ const ToolChain &Driver::getToolChain(const ArgList &Args,
       case llvm::Triple::csky:
         TC = std::make_unique<toolchains::CSKYToolChain>(*this, Target, Args);
         break;
+      case llvm::Triple::xygpu:
+        TC = std::make_unique<toolchains::XYGPUToolChain>(*this, Target, Args);
+        break;
       default:
         if (toolchains::BareMetal::handlesTarget(Target))
           TC = std::make_unique<toolchains::BareMetal>(*this, Target, Args);
@@ -6818,6 +6830,18 @@ const ToolChain &Driver::getOffloadingDeviceToolChain(
                Target.getOS() == llvm::Triple::UnknownOS)
         TC = std::make_unique<toolchains::HIPSPVToolChain>(*this, Target,
                                                            HostTC, Args);
+      else if (Target.getArch() == llvm::Triple::xygpu &&
+               Target.getVendor() == llvm::Triple::UnknownVendor &&
+               Target.getOS() == llvm::Triple::UnknownOS)
+        TC = std::make_unique<toolchains::XYGPUCudaToolChain>(*this, Target,
+                                                          HostTC, Args);
+      break;
+    case Action::OFK_Cuda:
+      if (Target.getArch() == llvm::Triple::xygpu &&
+               Target.getVendor() == llvm::Triple::UnknownVendor &&
+               Target.getOS() == llvm::Triple::UnknownOS)
+        TC = std::make_unique<toolchains::XYGPUCudaToolChain>(*this, Target,
+                                                          HostTC, Args);
       break;
     }
     case Action::OFK_SYCL:

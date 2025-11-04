@@ -142,10 +142,12 @@ enum class OffloadArch {
   AMDGCNSPIRV,
   Generic, // A processor model named 'generic' if the target backend defines a
            // public one.
+  XYGPU, // TODO: add a microarch name
   LAST,
 
   CudaDefault = OffloadArch::SM_52,
   HIPDefault = OffloadArch::GFX906,
+  XYGPUDefault = OffloadArch::XYGPU,
 };
 
 enum class CUDAFunctionTarget {
